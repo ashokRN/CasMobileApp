@@ -1,17 +1,22 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Animated,
+  Image,
   ActivityIndicator,
 } from 'react-native';
 
-import {Actions} from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
+import { GlobalContext } from '../../services/GlobalContext';
 
 const Loading = () => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
   const [LoadingSpinner, setLoadingSpinner] = useState(false);
+  const [globalState, setGlobalState] = useContext(GlobalContext);
+
+  const { AppName, des } = globalState;
 
     const switchOfAuth = () => {
       Actions.replace('auth')
@@ -28,7 +33,7 @@ const Loading = () => {
         setLoadingSpinner(true);
         if(LoadingSpinner === true) setTimeout(switchOfAuth, 1200);
     });
-  }, [LogoAnime]);
+  }, [LoadingSpinner]);
 
   return (
     <View style={style.container}>
@@ -44,8 +49,8 @@ const Loading = () => {
             },
           ],
         }}>
-        <Text style={style.logoText}>CaS</Text>
-        <ActivityIndicator size="large" color="#ffffff" />
+        <Text style={style.logoText}>{AppName}</Text>
+        <Text style={style.logoTextDes}>{des}</Text>
       </Animated.View>
     </View>
   );
@@ -56,19 +61,30 @@ export default Loading;
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#5257F2',
+    backgroundColor: '#FFA500',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
     flex: 1,
+    width:220,
+    height:40
   },
 
   logoText: {
     color: '#FFFFFF',
     fontFamily: 'GoogleSans-Bold',
     fontSize: 100,
-    marginTop: 29.1,
     fontWeight: '300',
+    justifyContent: 'center',
+    alignSelf:'center'
   },
+  logoTextDes: {
+    color: '#FFFFFF',
+    fontFamily: 'GoogleSans-Bold',
+    fontSize: 20,
+    fontWeight: '300',
+    justifyContent: 'center',
+    alignSelf:'center'
+  }
 });

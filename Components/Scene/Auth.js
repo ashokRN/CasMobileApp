@@ -7,65 +7,106 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Actions} from 'react-native-router-flux';
+import axios from 'axios';
+
+import API from '../../services/ApiService';
+import {GlobalContext} from '../../services/GlobalContext';
 
 const Login = () => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
+  const [globalState, setGlobalState] = React.useContext(GlobalContext);
+  let token = AsyncStorage.getItem('token');
 
-  const loginSubmit = () => {
-    Alert.alert(regno, password);
+  // React.useEffect(() => {
+  //   Alert.alert(token);
+  //   if (token) {
+  //     Actions.replace('signup');
+  //   }
+  // })
+
+  const loginSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'http://192.168.1.9:3000/api/user/login',
+        {
+          email: regno,
+          password: password,
+        },
+      );
+
+      AsyncStorage.setItem('token', response.data.token);
+
+      let token = AsyncStorage.getItem('token', (err, result) => {
+        if (err) return err;
+        if (result) {
+          setGlobalState({token: result});
+          Actions.replace('signup');
+        }
+      });
+    } catch (error) {
+      // handle error
+      Alert.alert(error.message);
+    }
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.top}></View>
+    <React.Fragment>
+      {token !== null || token !== '' || token !== undefined  ? (
+        <View style={styles.container}>
+          <View style={styles.top}></View>
 
-      <View style={styles.middle}>
-        <Text style={styles.textContainer}>You are ready to go</Text>
+          <View style={styles.middle}>
+            <Text style={styles.textContainer}>You are ready to go</Text>
 
-        <View style={styles.formArea}>
-          <Text style={[styles.textContainer, styles.signin]}>Login</Text>
-          <View style={styles.mainForm}>
-            <View style={styles.formItems}>
-              <TextInput
-                style={styles.Input}
-                underlineColorAndroid="transparent"
-                placeholder="Reg No"
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                value={regno || ''}
-                onChangeText={(text) => setRegno(text)}
-              />
+            <View style={styles.formArea}>
+              <Text style={[styles.textContainer, styles.signin]}>Login</Text>
+              <View style={styles.mainForm}>
+                <View style={styles.formItems}>
+                  <TextInput
+                    style={styles.Input}
+                    underlineColorAndroid="transparent"
+                    placeholder="Email"
+                    placeholderTextColor="#9a73ef"
+                    autoCapitalize="none"
+                    value={regno || ''}
+                    onChangeText={(text) => setRegno(text)}
+                  />
+                </View>
+                <View style={styles.formItems}>
+                  <TextInput
+                    style={styles.Input}
+                    underlineColorAndroid="transparent"
+                    name={'password'}
+                    placeholder="Password"
+                    placeholderTextColor="#9a73ef"
+                    autoCapitalize="none"
+                    value={password || ''}
+                    onChangeText={(text) => setPassword(text)}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.submitButton}
+                  onPress={() => loginSubmit()}>
+                  <Text style={styles.submitButtonText}> Submit </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.formItems}>
-              <TextInput
-                style={styles.Input}
-                underlineColorAndroid="transparent"
-                name={'password'}
-                placeholder="Password"
-                placeholderTextColor="#9a73ef"
-                autoCapitalize="none"
-                value={password || ''}
-                onChangeText={(text) => setPassword(text)}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={() => loginSubmit()}>
-              <Text style={styles.submitButtonText}> Submit </Text>
+          </View>
+          <View style={styles.bottom}></View>
+          <View style={styles.signup}>
+            <Text style={styles.signupText}>If you don't have an account?</Text>
+            <TouchableOpacity onPress={() => Actions.replace('signup')}>
+              <Text style={styles.signupTextSignUp}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <View style={styles.bottom}></View>
-      <View style={styles.signup}>
-        <Text style={styles.signupText}>If you don't have an account?</Text>
-        <TouchableOpacity onPress={() => Actions.replace('signup')}>
-          <Text style={styles.signupTextSignUp}>Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      ) : (
+        Actions.replace('signup')
+      )}
+    </React.Fragment>
   );
 };
 
@@ -78,7 +119,7 @@ const styles = StyleSheet.create({
   },
   top: {
     position: 'relative',
-    backgroundColor: '#5257F2',
+    backgroundColor: '#FFA500',
     paddingRight: 12.7,
     paddingLeft: 12.7,
     height: 250,
@@ -98,7 +139,7 @@ const styles = StyleSheet.create({
     height: '100%',
     paddingRight: 12.7,
     paddingLeft: 12.7,
-    backgroundColor: '#5257F2',
+    backgroundColor: '#FFA500',
   },
   textContainer: {
     color: '#FCFDFF',
@@ -155,7 +196,7 @@ const styles = StyleSheet.create({
 
   submitButton: {
     top: 10,
-    backgroundColor: '#7a42f4',
+    backgroundColor: '#FFA500',
     padding: 10,
     margin: 15,
     height: 40,
