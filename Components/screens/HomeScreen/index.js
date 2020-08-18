@@ -1,13 +1,14 @@
 import React, {useContext, useEffect} from 'react';
 import {View, Text, StyleSheet, Alert} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import {GlobalContext} from '../../services/GlobalContext';
+// import AsyncStorage from '@react-native-community/async-storage';
+import {GlobalContext} from '../../../services/GlobalContext';
 import Axios from 'axios';
-import Home from './Home/Home';
+// import Home from './Home';
 import {Actions} from 'react-native-router-flux';
 
 const Dashboard = () => {
   const [globalState, setGlobalState] = useContext(GlobalContext);
+  let id = 'id';
 
   const profie = async () => {
     try {
@@ -33,9 +34,9 @@ const Dashboard = () => {
 
   React.useEffect(() => {
     profie();
-  }, []);
+  },[id]);
 
-  return <View style={styles.container}>{Actions.replace('main')}</View>;
+  return <View style={styles.container}>{Actions.push('main')}</View>
 };
 
 export default Dashboard;

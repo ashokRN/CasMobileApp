@@ -11,21 +11,20 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 
-import API from '../../services/ApiService';
-import {GlobalContext} from '../../services/GlobalContext';
+import API from '../../../services/ApiService';
+import {GlobalContext} from '../../../services/GlobalContext';
 
 const Login = () => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
   let token = AsyncStorage.getItem('token');
+  let textInput = React.useRef();
+  let textInput2 = React.useRef();
 
-  // React.useEffect(() => {
-  //   Alert.alert(token);
-  //   if (token) {
-  //     Actions.replace('signup');
-  //   }
-  // })
+  React.useEffect(() => {
+    textInput.current.focus();
+  },[textInput])
 
   const loginSubmit = async () => {
     try {
@@ -66,24 +65,28 @@ const Login = () => {
               <View style={styles.mainForm}>
                 <View style={styles.formItems}>
                   <TextInput
+                    // autoFocus={true}
                     style={styles.Input}
                     underlineColorAndroid="transparent"
                     placeholder="Email"
-                    placeholderTextColor="#9a73ef"
+                    keyboardType='email-address'
+                    placeholderTextColor="#000000"
                     autoCapitalize="none"
-                    value={regno || ''}
+                    ref={textInput}
+                    onSubmitEditing={() => textInput2.current.focus()}
                     onChangeText={(text) => setRegno(text)}
                   />
                 </View>
                 <View style={styles.formItems}>
                   <TextInput
                     style={styles.Input}
+                    secureTextEntry={true}
                     underlineColorAndroid="transparent"
                     name={'password'}
+                    ref={textInput2}
                     placeholder="Password"
-                    placeholderTextColor="#9a73ef"
+                    placeholderTextColor="#000000"
                     autoCapitalize="none"
-                    value={password || ''}
                     onChangeText={(text) => setPassword(text)}
                   />
                 </View>

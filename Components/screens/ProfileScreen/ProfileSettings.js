@@ -14,6 +14,7 @@ const DATA = [
   },
 ];
 
+
 const Item = ({ title }) => (
   <TouchableOpacity onPress={()=>Actions.push(`${title}`)}>
   <View style={styles.item}>

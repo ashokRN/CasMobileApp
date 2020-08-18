@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
-import { GlobalContext } from '../../services/GlobalContext';
+import { GlobalContext } from '../../../services/GlobalContext';
 
 const Loading = () => {
   const LogoAnime = useRef(new Animated.Value(0)).current;

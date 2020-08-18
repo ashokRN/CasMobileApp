@@ -1,11 +1,10 @@
 import React from 'react';
 import {Router, Scene, ActionConst, Stack} from 'react-native-router-flux';
-import Login from '../Components/Scene/Login';
-import Signup from '../Components/Scene/Signup';
-import Dashboard from '../Components/Layouts';
-import Home from '../Components/Layouts/Home/Home';
-import Loading from '../Components/Scene/Loading';
-import SingleProfieSetting from '../Components/Layouts/Profile/SingleProfieSetting';
+import Loading from '../Components/screens/LoadingScreen/Loading';
+import Login from '../Components/screens/Auth/Login'
+import Signup from '../Components/screens/Auth/Signup'
+import Dashboard from '../Components/screens/HomeScreen/index';
+import Home from '../Components/screens/HomeScreen/Home';
 
 const Routes = () => (
   <Router>
@@ -20,7 +19,6 @@ const Routes = () => (
       <Scene key={'signup'} component={Signup} />
       <Scene key={'home'} component={Dashboard} />
       <Scene key={'main'} component={Home} />
-      <Scene key={'Profile'} title='Profile' component={SingleProfieSetting} />
     </Stack>
   </Router>
 );
