@@ -42,8 +42,8 @@ const Login = () => {
       let token = AsyncStorage.getItem('token', (err, result) => {
         if (err) return err;
         if (result) {
-          setGlobalState({token: result});
-          Actions.replace('signup');
+          setGlobalState({...globalState, token: result });
+          Actions.push('home');
         }
       });
     } catch (error) {
@@ -98,13 +98,13 @@ const Login = () => {
           <View style={styles.bottom}></View>
           <View style={styles.signup}>
             <Text style={styles.signupText}>If you don't have an account?</Text>
-            <TouchableOpacity onPress={() => Actions.replace('signup')}>
+            <TouchableOpacity onPress={() => Actions.push('signup')}>
               <Text style={styles.signupTextSignUp}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
       ) : (
-        Actions.replace('signup')
+        Actions.replace('home')
       )}
     </React.Fragment>
   );

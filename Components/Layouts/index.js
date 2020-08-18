@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, Alert} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {GlobalContext} from '../../services/GlobalContext';
 import Axios from 'axios';
+import Home from './Home/Home';
+import {Actions} from 'react-native-router-flux';
 
 const Dashboard = () => {
   const [globalState, setGlobalState] = useContext(GlobalContext);
@@ -16,9 +18,11 @@ const Dashboard = () => {
       });
       let data = response.data;
       setGlobalState({
+        ...globalState,
         name: data.user.name,
         email: data.user.email,
         phone: data.user.phone,
+        active: true,
       });
     } catch (error) {
       Alert.alert(error.message);
@@ -31,13 +35,7 @@ const Dashboard = () => {
     profie();
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Name:{globalState.name}</Text>
-      <Text style={styles.text}>Email:{globalState.email}</Text>
-      <Text style={styles.text}>Email:{globalState.phone}</Text>
-    </View>
-  );
+  return <View style={styles.container}>{Actions.replace('main')}</View>;
 };
 
 export default Dashboard;
@@ -47,13 +45,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignSelf: 'center',
-    },
-    text: {
-        color:'#FFA500',
-        fontFamily: 'GoogleSans-Bold',
-        fontSize: 24,
-        marginBottom: 30,
-        position: 'relative',
-        alignSelf: 'center', 
-    }
+  },
+  text: {
+    color: '#FFA500',
+    fontFamily: 'GoogleSans-Bold',
+    fontSize: 24,
+    marginBottom: 30,
+    position: 'relative',
+    alignSelf: 'center',
+  },
 });

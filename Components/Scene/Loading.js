@@ -19,7 +19,7 @@ const Loading = () => {
   const { AppName, des } = globalState;
 
     const switchOfAuth = () => {
-      Actions.replace('auth')
+      Actions.push('login')
   };
 
   useEffect(() => {
