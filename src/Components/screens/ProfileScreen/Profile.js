@@ -2,14 +2,13 @@ import React, {useContext, useState} from 'react';
 import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
 import {GlobalContext} from '../../../services/GlobalContext';
 import {ScrollView} from 'react-native-gesture-handler';
-import ProfileSettings from './ProfileSettings';
 
 const Profile = () => {
   const [globalState, setGlobalState] = useContext(GlobalContext);
   const {name, email, phone, active} = globalState;
   console.log(globalState, 'cold');
   return (
-    <SafeAreaView style={{flex:1}}>
+    <SafeAreaView style={{flex: 1}}>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.profileContainer}>
@@ -30,7 +29,6 @@ const Profile = () => {
             </View>
           </View>
         </View>
-        <ProfileSettings />
       </ScrollView>
     </SafeAreaView>
   );

@@ -5,10 +5,10 @@
  * @format
  * @flow strict-local
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import GlobalContext from './services/GlobalContext';
-import Routes from './routes/Nav';
+import GlobalContext from './src/services/GlobalContext';
+import Routes from './src/routes/Nav';
 
 
 const App = () => {

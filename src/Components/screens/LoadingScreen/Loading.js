@@ -11,16 +11,12 @@ import {
 import { Actions } from 'react-native-router-flux';
 import { GlobalContext } from '../../../services/GlobalContext';
 
-const Loading = () => {
+const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
   const [LoadingSpinner, setLoadingSpinner] = useState(false);
   const [globalState, setGlobalState] = useContext(GlobalContext);
 
   const { AppName, des } = globalState;
-
-    const switchOfAuth = () => {
-      Actions.push('login')
-  };
 
   useEffect(() => {
     Animated.timing(LogoAnime, {
@@ -31,8 +27,8 @@ const Loading = () => {
       useNativeDriver: true,
     }).start(() => {
         setLoadingSpinner(true);
-        if(LoadingSpinner === true) setTimeout(switchOfAuth, 1200);
-    });
+        if(LoadingSpinner === true) setTimeout(() => navigation.navigate('login'), 1200);
+    })
   }, [LoadingSpinner]);
 
   return (

@@ -8,25 +8,32 @@ import {
   Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
-
-import API from '../../../services/ApiService';
 import {GlobalContext} from '../../../services/GlobalContext';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  let token = AsyncStorage.getItem('token');
+  const [token, setToken] = React.useState();
   let textInput = React.useRef();
   let textInput2 = React.useRef();
 
+  const navHome = () => navigation.navigate('main');
+
+
   React.useEffect(() => {
-    textInput.current.focus();
-  },[textInput])
+    let token = AsyncStorage.getItem('token', (err, result) => {
+      if (err) return err;
+      if (result) {
+        // setToken(result);
+        navHome();
+      }
+    });
+  }, [textInput]);
 
   const loginSubmit = async () => {
+    console.log(regno, password);
     try {
       const response = await axios.post(
         'http://192.168.1.9:3000/api/user/login',
@@ -41,22 +48,20 @@ const Login = () => {
       let token = AsyncStorage.getItem('token', (err, result) => {
         if (err) return err;
         if (result) {
-          setGlobalState({...globalState, token: result });
-          Actions.push('home');
+          setGlobalState({...globalState, token: result});
+          navigation.navigate('main');
         }
       });
     } catch (error) {
       // handle error
-      Alert.alert(error.message);
+      console.log(error.message);
     }
   };
 
   return (
     <React.Fragment>
-      {token !== null || token !== '' || token !== undefined  ? (
         <View style={styles.container}>
           <View style={styles.top}></View>
-
           <View style={styles.middle}>
             <Text style={styles.textContainer}>You are ready to go</Text>
 
@@ -69,7 +74,7 @@ const Login = () => {
                     style={styles.Input}
                     underlineColorAndroid="transparent"
                     placeholder="Email"
-                    keyboardType='email-address'
+                    keyboardType="email-address"
                     placeholderTextColor="#000000"
                     autoCapitalize="none"
                     ref={textInput}
@@ -101,14 +106,11 @@ const Login = () => {
           <View style={styles.bottom}></View>
           <View style={styles.signup}>
             <Text style={styles.signupText}>If you don't have an account?</Text>
-            <TouchableOpacity onPress={() => Actions.push('signup')}>
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
               <Text style={styles.signupTextSignUp}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
-      ) : (
-        Actions.replace('home')
-      )}
     </React.Fragment>
   );
 };
