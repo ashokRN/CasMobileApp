@@ -5,112 +5,114 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import axios from 'axios';
+import API from '../../../services/ApiService';
 import {GlobalContext} from '../../../services/GlobalContext';
 
 const Login = ({navigation}) => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const [token, setToken] = React.useState();
   let textInput = React.useRef();
   let textInput2 = React.useRef();
 
-  const navHome = () => navigation.navigate('main');
-
-
-  React.useEffect(() => {
-    let token = AsyncStorage.getItem('token', (err, result) => {
-      if (err) return err;
-      if (result) {
-        // setToken(result);
-        navHome();
+  const tokenAuth = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        let response;
+        try {
+          response = await API.getUser(value);
+        } catch (error) {
+          console.log(error.message);
+        }
+        if (response) {
+          let data = response.data;
+          setGlobalState({
+            ...globalState,
+            token: value,
+            name: data.user.name,
+            email: data.user.email,
+            phone: data.user.phone,
+            active: true,
+          });
+          navigation.navigate('home');
+        } 
+      } else {
+        navigation.navigate('login');
       }
-    });
-  }, [textInput]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const loginSubmit = async () => {
-    console.log(regno, password);
+    let response;
     try {
-      const response = await axios.post(
-        'http://192.168.1.9:3000/api/user/login',
-        {
-          email: regno,
-          password: password,
-        },
-      );
-
-      AsyncStorage.setItem('token', response.data.token);
-
-      let token = AsyncStorage.getItem('token', (err, result) => {
-        if (err) return err;
-        if (result) {
-          setGlobalState({...globalState, token: result});
-          navigation.navigate('main');
-        }
-      });
+      response = await API.login(regno, password);
     } catch (error) {
-      // handle error
       console.log(error.message);
+    }
+    if (response) {
+      await AsyncStorage.setItem('token', response.data.token);
+      tokenAuth();
     }
   };
 
   return (
     <React.Fragment>
-        <View style={styles.container}>
-          <View style={styles.top}></View>
-          <View style={styles.middle}>
-            <Text style={styles.textContainer}>You are ready to go</Text>
+      <View style={styles.container}>
+        <View style={styles.top}></View>
+        <View style={styles.middle}>
+          <Text style={styles.textContainer}>You are ready to go</Text>
 
-            <View style={styles.formArea}>
-              <Text style={[styles.textContainer, styles.signin]}>Login</Text>
-              <View style={styles.mainForm}>
-                <View style={styles.formItems}>
-                  <TextInput
-                    // autoFocus={true}
-                    style={styles.Input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Email"
-                    keyboardType="email-address"
-                    placeholderTextColor="#000000"
-                    autoCapitalize="none"
-                    ref={textInput}
-                    onSubmitEditing={() => textInput2.current.focus()}
-                    onChangeText={(text) => setRegno(text)}
-                  />
-                </View>
-                <View style={styles.formItems}>
-                  <TextInput
-                    style={styles.Input}
-                    secureTextEntry={true}
-                    underlineColorAndroid="transparent"
-                    name={'password'}
-                    ref={textInput2}
-                    placeholder="Password"
-                    placeholderTextColor="#000000"
-                    autoCapitalize="none"
-                    onChangeText={(text) => setPassword(text)}
-                  />
-                </View>
-                <TouchableOpacity
-                  style={styles.submitButton}
-                  onPress={() => loginSubmit()}>
-                  <Text style={styles.submitButtonText}> Submit </Text>
-                </TouchableOpacity>
+          <View style={styles.formArea}>
+            <Text style={[styles.textContainer, styles.signin]}>Login</Text>
+            <View style={styles.mainForm}>
+              <View style={styles.formItems}>
+                <TextInput
+                  // autoFocus={true}
+                  style={styles.Input}
+                  underlineColorAndroid="transparent"
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  placeholderTextColor="#000000"
+                  autoCapitalize="none"
+                  ref={textInput}
+                  onSubmitEditing={() => textInput2.current.focus()}
+                  onChangeText={(text) => setRegno(text)}
+                />
               </View>
+              <View style={styles.formItems}>
+                <TextInput
+                  style={styles.Input}
+                  secureTextEntry={true}
+                  underlineColorAndroid="transparent"
+                  name={'password'}
+                  ref={textInput2}
+                  placeholder="Password"
+                  placeholderTextColor="#000000"
+                  autoCapitalize="none"
+                  onChangeText={(text) => setPassword(text)}
+                />
+              </View>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={loginSubmit}>
+                <Text style={styles.submitButtonText}> Submit </Text>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.bottom}></View>
-          <View style={styles.signup}>
-            <Text style={styles.signupText}>If you don't have an account?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-              <Text style={styles.signupTextSignUp}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
         </View>
+        <View style={styles.bottom}></View>
+        <View style={styles.signup}>
+          <Text style={styles.signupText}>If you don't have an account?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+            <Text style={styles.signupTextSignUp}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </React.Fragment>
   );
 };

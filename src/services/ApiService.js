@@ -1,17 +1,30 @@
-exports.login = async (loginBody) => {
-    const Body = {email:loginBody.regno,password:loginBody.password};
-    console.log("Body", Body);
-    const response = fetch("http://192.168.1.9:3000/api/user/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+const axios = require('axios');
+
+exports.login = async (regno, password) => {
+  try {
+    const response = await axios.post(
+      'http://192.168.1.9:3000/api/user/login',
+      {
+        email: regno,
+        password: password,
       },
-      body: JSON.stringify(Body),
+    );
+    return await response;
+  } catch (error) {
+    throw error
+  }
+}
+
+exports.getUser = async (token) => {
+  try {
+    const response = await axios.get(
+      'http://192.168.1.9:3000/api/user/get', {
+      headers: {
+        Authorization: `${token}`
+      }
     });
-    if (response.status === 200) {
-        console.log(response,'response');
-      return  response.json();
-    } else {
-      return response.json();
-    }
-  };
+    return await response;
+  } catch (error) {
+    throw error
+  }
+}

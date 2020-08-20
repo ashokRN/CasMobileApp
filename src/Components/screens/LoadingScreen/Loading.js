@@ -4,12 +4,10 @@ import {
   Text,
   StyleSheet,
   Animated,
-  Image,
-  ActivityIndicator,
 } from 'react-native';
-
-import { Actions } from 'react-native-router-flux';
+import AsyncStorage from '@react-native-community/async-storage';
 import { GlobalContext } from '../../../services/GlobalContext';
+import API from '../../../services/ApiService';
 
 const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
@@ -17,6 +15,38 @@ const Loading = ({navigation}) => {
   const [globalState, setGlobalState] = useContext(GlobalContext);
 
   const { AppName, des } = globalState;
+  
+  const tokenAuth = async () => {
+    try {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+        let response;
+        try {
+          response = await API.getUser(value);
+        } catch (error) {
+          console.log(error.message);
+        }
+        if (response) {
+          let data = response.data;
+          setGlobalState({
+            ...globalState,
+            token: value,
+            name: data.user.name,
+            email: data.user.email,
+            phone: data.user.phone,
+            active: true,
+            Auth:true,
+          });
+          navigation.navigate('home');
+        } 
+      } else {
+        navigation.navigate('login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
 
   useEffect(() => {
     Animated.timing(LogoAnime, {
@@ -27,7 +57,7 @@ const Loading = ({navigation}) => {
       useNativeDriver: true,
     }).start(() => {
         setLoadingSpinner(true);
-        if(LoadingSpinner === true) setTimeout(() => navigation.navigate('login'), 1200);
+      if (LoadingSpinner === true) setTimeout(() => tokenAuth(), 1200);
     })
   }, [LoadingSpinner]);
 

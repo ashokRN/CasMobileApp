@@ -1,19 +1,17 @@
-import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet, Image, SafeAreaView} from 'react-native';
+import React, {useContext} from 'react';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {GlobalContext} from '../../../services/GlobalContext';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const Profile = () => {
+
   const [globalState, setGlobalState] = useContext(GlobalContext);
-  const {name, email, phone, active} = globalState;
-  console.log(globalState, 'cold');
+  const { name, email, active } = globalState;
+  
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <ScrollView>
         <View style={styles.container}>
           <View style={styles.profileContainer}>
             <Image
-              source={{uri: 'https://bit.ly/2Q3l2hD'}}
+              source={{uri: 'https://bit.ly/32eXxYy'}}
               style={{width: 100, height: 100, borderRadius: 150 / 2}}
             />
             <View
@@ -29,8 +27,6 @@ const Profile = () => {
             </View>
           </View>
         </View>
-      </ScrollView>
-    </SafeAreaView>
   );
 };
 
@@ -50,7 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   activeIndicatiorOnlineColor: {
-    backgroundColor: '#00FF00',
+    backgroundColor: '#FFA500',
   },
   activeIndicatiorOfflineColor: {
     backgroundColor: '#d3d3d3',
