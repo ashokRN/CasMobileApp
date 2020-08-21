@@ -24,7 +24,7 @@ const Loading = ({navigation}) => {
         try {
           response = await API.getUser(value);
         } catch (error) {
-          console.log(error.message);
+          navigation.navigate('login');
         }
         if (response) {
           let data = response.data;

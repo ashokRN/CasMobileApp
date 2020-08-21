@@ -1,15 +1,17 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {GlobalContext} from '../../../services/GlobalContext';
+import { globalStyle } from '../../../services/GlobalStyles';
 
 const Profile = () => {
 
   const [globalState, setGlobalState] = useContext(GlobalContext);
-  const { name, email, active } = globalState;
+  const { name, email, active, dark } = globalState;
+  const { DarkBackground, LightBackground, Darktext, LightText } = globalStyle;
   
   return (
-        <View style={styles.container}>
-          <View style={styles.profileContainer}>
+        <View style={[styles.container,dark?DarkBackground:LightBackground]}>
+          <View style={[styles.profileContainer,dark?DarkBackground:LightBackground]}>
             <Image
               source={{uri: 'https://bit.ly/32eXxYy'}}
               style={{width: 100, height: 100, borderRadius: 150 / 2}}
@@ -22,8 +24,8 @@ const Profile = () => {
                   : styles.activeIndicatiorOfflineColor,
               ]}></View>
             <View style={styles.profileText}>
-              <Text>{name.toUpperCase()}</Text>
-              <Text>{email}</Text>
+              <Text style={dark?Darktext:LightText}>{name.toUpperCase()}</Text>
+              <Text style={dark?Darktext:LightText}>{email}</Text>
             </View>
           </View>
         </View>

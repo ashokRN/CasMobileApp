@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -9,43 +9,89 @@ import {
 } from 'react-native';
 import Profile from '../ProfileScreen/Profile';
 import AsyncStorage from '@react-native-community/async-storage';
-import { settings } from '../../../services/SettingsData';
+import {settings} from '../../../services/settings/SettingsData';
+import {globalStyle} from '../../../services/GlobalStyles';
+import {GlobalContext} from '../../../services/GlobalContext';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { themes } from '../../../services/settings/Themes';
 
-const AccountSetting = ({ navigation }) => {
+const AccountSetting = ({navigation}) => {
+  const [globalState, setGlobalState] = useContext(GlobalContext);
+  const {dark} = globalState;
+  const { DarkBackground, LightBackground, Darktext, LightText } = globalStyle;
   const logOut = async () => {
     await AsyncStorage.clear();
-    navigation.navigate('login')
-  }
+    navigation.navigate('login');
+  };
+
+  console.log(themes.dark, 'dark', themes.light,'light');
+  
+
+  const SettingsIconsRender = (icon) => {
+    switch (icon) {
+      case 'Profile':
+        return 'user';
+      case 'Theme':
+        return 'eye';
+      case 'Location':
+        return 'map-marker-alt';
+      case 'About Us':
+        return 'info';
+      case 'Terms and Policy':
+        return 'user-secret';
+      case 'Log out':
+        return 'sign-out-alt';
+    }
+  };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      
+    <SafeAreaView
+      style={[styles.container, dark ? DarkBackground : LightBackground]}>
       <Profile />
-        <SectionList
-          style={styles.sectionslist}
+      <SectionList
+        style={styles.sectionslist}
         sections={settings}
         keyExtractor={(item, index) => item + index}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => item === 'Log out'?logOut():navigation.navigate(item)}>
-            <View style={styles.item}>
-              <Text style={styles.title}>{item}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              item === 'Log out' ? logOut() : navigation.navigate(item)
+            }>
+            <View
+              style={[styles.item, dark ? DarkBackground : LightBackground]}>
+              <Text style={styles.iconText}>
+                <FontAwesome5 name={SettingsIconsRender(item)} size={18} color={dark?themes.dark.color:themes.light.color} />
+              </Text>
+              <Text style={[styles.title, dark ? Darktext : LightText]}>
+                {item}
+              </Text>
             </View>
           </TouchableOpacity>
         )}
         renderSectionHeader={({section: {title}}) => (
-          <Text style={styles.header}>{title}</Text>
+          <Text
+            style={[
+              styles.header,
+              dark ? [DarkBackground, Darktext] : [LightBackground, LightText],
+            ]}>
+            {title}
+          </Text>
         )}
-        />
-        </SafeAreaView>
+      />
+    </SafeAreaView>
   );
 };
 
 export default AccountSetting;
 
 const styles = StyleSheet.create({
+  container: {flex: 1},
   sectionslist: {
-    marginTop:100,
+    marginTop: 100,
   },
   item: {
+    // alignItems: 'center',
+    // justifyContent:'center',
+    flexDirection: 'row',
     fontFamily: 'GoogleSans-Bold',
     padding: 15,
     backgroundColor: '#ffffff',
@@ -54,9 +100,11 @@ const styles = StyleSheet.create({
     fontFamily: 'GoogleSans-Bold',
     padding: 10,
     fontSize: 20,
+    fontWeight: '600',
     backgroundColor: '#f8f8f4',
   },
   title: {
+    marginLeft: 10,
     fontFamily: 'GoogleSans-Bold',
     fontSize: 15,
     fontWeight: '600',
@@ -71,5 +119,8 @@ const styles = StyleSheet.create({
   logoutBtnText: {
     color: 'white',
     textAlign: 'center',
+  },
+  iconText: {
+    padding:2
   }
 });

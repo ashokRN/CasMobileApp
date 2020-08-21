@@ -9,12 +9,13 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import GlobalContext from './src/services/GlobalContext';
 import Routes from './src/routes/Nav';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+
 
 const App = () => {
   return (
     <GlobalContext>
-      <NavigationContainer>
+      <NavigationContainer >
         <Routes />
       </NavigationContainer>
     </GlobalContext>

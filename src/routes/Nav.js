@@ -13,10 +13,10 @@ const Routes = () => {
   const { Auth } = globalState;
 
   return (
-    <>
+    <React.Fragment>
       {Auth ? (
-        <Stack.Navigator initialRouteName="home">
-        <Stack.Screen
+        <Stack.Navigator initialRouteName="home"  >
+          <Stack.Screen
             name="home"
             component={Home}
             options={{ title: 'CAS' }}
@@ -56,7 +56,7 @@ const Routes = () => {
           />
         </Stack.Navigator>
       )}
-    </>
+    </React.Fragment>
   );
 };
 export default Routes;

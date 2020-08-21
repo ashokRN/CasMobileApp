@@ -34,11 +34,12 @@ const Settings = () => {
 
   return (
     <SettingStack.Navigator initialRouteName="setting" screenOptions={
+    
       {
         headerShown: false ,
         gestureEnabled: true,
         gestureDirection: 'horizontal',
-        ...TransitionPresets.FadeFromBottomAndroid
+        ...TransitionPresets.FadeFromBottomAndroid,
         // cardStyleInterpolator:CardStyleInterpolators.forFadeFromBottomAndroid
         // transitionSpec: {
         //   open: config,
