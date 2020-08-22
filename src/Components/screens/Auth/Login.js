@@ -32,13 +32,22 @@ const Login = ({navigation}) => {
           setGlobalState({
             ...globalState,
             token: value,
-            name: data.user.name,
-            email: data.user.email,
-            phone: data.user.phone,
+            user: {
+              ProfileName: data.user.profileId,
+              Name: data.user.name,
+              Email: data.user.email,
+              Phone: data.user.phone,
+              DOB: data.user.dob,
+              RegistrationNo: data.user.regNo,
+              Department: data.user.department,
+              Course: data.user.course,
+              Graduate: data.user.graduate,
+            },
             active: true,
+            Auth: true,
           });
           navigation.navigate('home');
-        } 
+        }
       } else {
         navigation.navigate('login');
       }

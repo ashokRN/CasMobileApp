@@ -1,28 +1,43 @@
 import * as React from 'react';
+import {
+  Image,
+  StyleSheet,
+} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Profile from '../ProfileScreen/Profile';
-import Settings from '../SettingsScreen/index';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {themes} from '../../../services/settings/Themes';
 import {GlobalContext} from '../../../services/GlobalContext';
+import {globalStyle} from '../../../services/GlobalStyles';
+import HomePosts from './HomePosts';
 
 const Tab = createBottomTabNavigator();
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark} = globalState;
+  const {dark, avatar} = globalState;
+  const {
+    darkTabLogoBorder,
+    lightTabLogoBorder,
+    darkTabBackground,
+    lightTabBackground,
+    darkTabActiveColor,
+    lightTabActiveColor,
+    darkTabInActiveColor,
+    lightTabInActiveColor
+  } = globalStyle;
+
 
   const darkthemeStyles = {
     backgroundColor: dark
-      ? themes.dark.backgroudColor
-      : themes.light.backgroudColor,
+      ? darkTabBackground.backgroundColor
+      : lightTabBackground.backgroundColor,
   };
 
   const lightthemeStyles = {
     alignSelf: 'center',
     backgroundColor: dark
-      ? themes.dark.backgroudColor
-      : themes.light.backgroudColor,
+      ? darkTabBackground.backgroundColor
+      : lightTabBackground.backgroundColor,
     borderRadius: 20,
     bottom: 15,
     width: 340,
@@ -37,12 +52,12 @@ const Home = () => {
         },
         showLabel: false,
         activeTintColor: dark
-          ? themes.dark.activeColor
-          : themes.light.activeColor,
+          ? darkTabActiveColor.color
+          : lightTabActiveColor.color,
         inactiveTintColor: dark
-          ? themes.dark.inactiveColor
-          : themes.light.inactiveColor,
-        style: dark?darkthemeStyles:lightthemeStyles,
+          ? darkTabInActiveColor.color
+          : lightTabInActiveColor.color,
+        style: dark ? darkthemeStyles : lightthemeStyles,
       }}
       screenOptions={({route}) => ({
         tabBarIcon: ({color}) => {
@@ -50,19 +65,38 @@ const Home = () => {
             Home: 'home',
             Feed: 'rss-square',
             Notification: 'envelope',
-            Settings: 'cog',
           };
+          if (route.name === 'Profile') {
+            return (
+              <Image
+                style={[
+                  styles.profileTabLogo,
+                  dark ? darkTabLogoBorder : lightTabLogoBorder,
+                ]}
+                source={{uri: avatar}}
+              />
+            );
+          }
           return (
             <FontAwesome5 name={icons[route.name]} color={color} size={20} />
           );
         },
       })}>
-      <Tab.Screen name="Home" component={Profile} />
+      <Tab.Screen name="Home" component={HomePosts} />
       <Tab.Screen name="Feed" component={Profile} />
       <Tab.Screen name="Notification" component={Profile} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  profileTabLogo: {
+    width: 30,
+    height: 30,
+    borderRadius: 150 / 2,
+    borderWidth: 1.5,
+  },
+});

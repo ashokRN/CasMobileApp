@@ -1,6 +1,11 @@
 import React from 'react';
 
-const State = { AppName: 'CAS',des:'College of Arts & Science',dark:false };
+const State = {
+  AppName: 'CAS',
+  des: 'College of Arts & Science',
+  dark: false,
+  avatar: 'https://bit.ly/3l9V5v2',
+};
 
 export const GlobalContext = React.createContext(State);
 

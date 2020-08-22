@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import Profile from '../ProfileScreen/Profile';
 import AsyncStorage from '@react-native-community/async-storage';
 import {settings} from '../../../services/settings/SettingsData';
 import {globalStyle} from '../../../services/GlobalStyles';
 import {GlobalContext} from '../../../services/GlobalContext';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import { themes } from '../../../services/settings/Themes';
+import ProfileImage from '../ProfileScreen/ProfileImage';
 
 const AccountSetting = ({navigation}) => {
   const [globalState, setGlobalState] = useContext(GlobalContext);
@@ -23,9 +23,6 @@ const AccountSetting = ({navigation}) => {
     await AsyncStorage.clear();
     navigation.navigate('login');
   };
-
-  console.log(themes.dark, 'dark', themes.light,'light');
-  
 
   const SettingsIconsRender = (icon) => {
     switch (icon) {
@@ -46,7 +43,7 @@ const AccountSetting = ({navigation}) => {
   return (
     <SafeAreaView
       style={[styles.container, dark ? DarkBackground : LightBackground]}>
-      <Profile />
+      <ProfileImage />
       <SectionList
         style={styles.sectionslist}
         sections={settings}
@@ -86,11 +83,9 @@ export default AccountSetting;
 const styles = StyleSheet.create({
   container: {flex: 1},
   sectionslist: {
-    marginTop: 100,
+    // marginTop: 100,
   },
   item: {
-    // alignItems: 'center',
-    // justifyContent:'center',
     flexDirection: 'row',
     fontFamily: 'GoogleSans-Bold',
     padding: 15,
