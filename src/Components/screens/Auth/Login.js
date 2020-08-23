@@ -9,11 +9,14 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import API from '../../../services/ApiService';
 import {GlobalContext} from '../../../services/GlobalContext';
+import {globalStyle} from '../../../services/GlobalStyles';
 
 const Login = ({navigation}) => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
+  const {dark} = globalState;
+  const {loadingDarkScreen, loadingLightScreen, lightBackground} = globalStyle;
   let textInput = React.useRef();
   let textInput2 = React.useRef();
 
@@ -72,21 +75,50 @@ const Login = ({navigation}) => {
   return (
     <React.Fragment>
       <View style={styles.container}>
-        <View style={styles.top}></View>
-        <View style={styles.middle}>
+        <View
+          style={[
+            styles.top,
+            {
+              backgroundColor: dark
+                ? loadingDarkScreen.backgroundColor
+                : loadingLightScreen.backgroundColor,
+            },
+          ]}></View>
+        <View style={[styles.middle, {zIndex: dark ? 2 : 1}]}>
           <Text style={styles.textContainer}>You are ready to go</Text>
 
-          <View style={styles.formArea}>
-            <Text style={[styles.textContainer, styles.signin]}>Login</Text>
+          <View
+            style={[
+              styles.formArea,
+              {
+                backgroundColor: dark
+                  ? loadingDarkScreen.backgroundColor
+                  : '#ffffff',
+              },
+            ]}>
+            <Text
+              style={[
+                styles.textContainer,
+                styles.signin,
+                {color: dark ? '#ffa500' : '#000000'},
+              ]}>
+              Login
+            </Text>
             <View style={styles.mainForm}>
               <View style={styles.formItems}>
                 <TextInput
                   // autoFocus={true}
-                  style={styles.Input}
+                  style={[
+                    styles.Input,
+                    {
+                      borderColor: dark ? '#ffffff' : '#000000',
+                      color: dark ? '#ffffff' : '#000000',
+                    },
+                  ]}
                   underlineColorAndroid="transparent"
                   placeholder="Email"
                   keyboardType="email-address"
-                  placeholderTextColor="#000000"
+                  placeholderTextColor={dark ? '#ffffff' : '#000000'}
                   autoCapitalize="none"
                   ref={textInput}
                   onSubmitEditing={() => textInput2.current.focus()}
@@ -95,13 +127,19 @@ const Login = ({navigation}) => {
               </View>
               <View style={styles.formItems}>
                 <TextInput
-                  style={styles.Input}
+                  style={[
+                    styles.Input,
+                    {
+                      borderColor: dark ? '#ffffff' : '#000000',
+                      color: dark ? '#ffffff' : '#000000',
+                    },
+                  ]}
                   secureTextEntry={true}
                   underlineColorAndroid="transparent"
                   name={'password'}
                   ref={textInput2}
                   placeholder="Password"
-                  placeholderTextColor="#000000"
+                  placeholderTextColor={dark ? '#ffffff' : '#000000'}
                   autoCapitalize="none"
                   onChangeText={(text) => setPassword(text)}
                 />
@@ -114,11 +152,29 @@ const Login = ({navigation}) => {
             </View>
           </View>
         </View>
-        <View style={styles.bottom}></View>
+        <View
+          style={[
+            styles.bottom,
+            {
+              backgroundColor: dark
+                ? loadingDarkScreen.backgroundColor
+                : loadingLightScreen.backgroundColor,
+            },
+          ]}></View>
         <View style={styles.signup}>
           <Text style={styles.signupText}>If you don't have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-            <Text style={styles.signupTextSignUp}>Sign Up</Text>
+            <Text
+              style={[
+                styles.signupTextSignUp,
+                {
+                  color: dark
+                    ? loadingDarkScreen.color
+                    : loadingLightScreen.color,
+                },
+              ]}>
+              Sign up
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -145,7 +201,6 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     position: 'absolute',
-    zIndex: 2,
     backgroundColor: 'transparent',
     paddingLeft: 26.3,
     paddingRight: 26.3,
@@ -161,6 +216,7 @@ const styles = StyleSheet.create({
     color: '#FCFDFF',
     fontFamily: 'GoogleSans-Bold',
     fontSize: 24,
+    letterSpacing: 5,
     marginBottom: 30,
     position: 'relative',
     top: '20%',
@@ -176,7 +232,6 @@ const styles = StyleSheet.create({
   },
   signin: {
     top: 10,
-    color: '#2D3057',
     fontFamily: 'GoogleSans-Bold',
     marginTop: 15,
   },
@@ -187,6 +242,7 @@ const styles = StyleSheet.create({
   Input: {
     fontFamily: 'Poppins-Bold',
     fontSize: 12,
+    letterSpacing: 5,
     marginLeft: 15,
     marginRight: 15,
     height: 50,
@@ -211,7 +267,7 @@ const styles = StyleSheet.create({
   },
 
   submitButton: {
-    top: 10,
+    top: 25,
     backgroundColor: '#FFA500',
     padding: 10,
     margin: 15,
@@ -221,6 +277,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: 'white',
     textAlign: 'center',
+    letterSpacing: 5,
   },
   signup: {
     top: 550,
@@ -233,12 +290,14 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontFamily: 'GoogleSans-Bold',
     fontSize: 15,
+    letterSpacing: 3,
   },
   signupTextSignUp: {
-    top: 5,
+    top: 25,
     color: '#ffffff',
     fontFamily: 'GoogleSans-Bold',
     fontSize: 20,
+    letterSpacing: 3,
     justifyContent: 'center',
     alignSelf: 'center',
   },

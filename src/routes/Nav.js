@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Loading from '../Components/screens/LoadingScreen/Loading';
 import Login from '../Components/screens/Auth/Login';
@@ -10,11 +10,12 @@ import ThemeSetting from '../Components/screens/SettingsScreen/ThemeSetting';
 import ProfileSetting from '../Components/screens/SettingsScreen/ProfileSetting';
 import About from '../Components/screens/SettingsScreen/About';
 import Terms from '../Components/screens/SettingsScreen/TermsAndPolicy';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
+import {createStackNavigator,} from '@react-navigation/stack';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useDarkMode } from 'react-native-dark-mode'
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,19 @@ const Routes = () => {
     LightText,
     StaticColor
   } = globalStyle;
+
+  const isDark = useDarkMode();
+
+  useEffect(() => {
+    if (isDark === true) {
+      setGlobalState({ ...globalState, dark: isDark });
+    }
+    if (isDark === false) {
+      setGlobalState({ ...globalState, dark: isDark });
+    }
+  },[isDark])
+
+  
 
   const SettingIcon = () => {
     const navigation = useNavigation();

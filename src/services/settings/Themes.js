@@ -6,6 +6,7 @@ export const themes = {
     color: '#ffa500',
     text: '#ffffff',
     darkBackground: '#2d2d2d',
+    lodingLogoColor:'#ffa500'
   },
   light: {
     backgroudColor: '#ffa500',
@@ -14,6 +15,8 @@ export const themes = {
     color: '#2d2d2d',
     text: '#000000',
     lightBackground: '#ffffff',
+    lodingLogoColor:'#ffffff'
+
   },
   Indicators: {
     onlineIndicator: '#ffa500',
@@ -21,7 +24,7 @@ export const themes = {
   },
   logoTheme: {
     dark: '#ffa500',
-    light:'#000000'
+    light:'#ffffff'
   },
   logoBorder: {
     dark: '#ffa500',

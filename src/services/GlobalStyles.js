@@ -77,5 +77,16 @@ export const globalStyle = StyleSheet.create({
   },
   StaticColor: {
     color:StableColor
+  },
+  loadingDarkScreen: {
+    backgroundColor: dark.backgroudColor,
+    color:dark.lodingLogoColor
+  },
+  loadingLightScreen: {
+    backgroundColor: light.backgroudColor,
+    color: light.lodingLogoColor,
+  },
+  lightBackground: {
+    color:light.lightBackground
   }
 });

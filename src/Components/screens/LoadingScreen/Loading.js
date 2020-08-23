@@ -1,27 +1,20 @@
 import React, {useRef, useState, useEffect, useContext} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Animated,
-  useColorScheme,
-} from 'react-native';
+import {View, Text, StyleSheet, Animated} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { GlobalContext } from '../../../services/GlobalContext';
+import {GlobalContext} from '../../../services/GlobalContext';
 import API from '../../../services/ApiService';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {globalStyle} from '../../../services/GlobalStyles';
 
 const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
   const [LoadingSpinner, setLoadingSpinner] = useState(false);
   const [globalState, setGlobalState] = useContext(GlobalContext);
 
-  const { AppName, des } = globalState;
+  const {loadingDarkScreen, loadingLightScreen} = globalStyle;
 
-  const scheme = useColorScheme();
+  const {dark} = globalState;
 
-  console.log(scheme, 'Theme');
-  
   const tokenAuth = async () => {
     try {
       const value = await AsyncStorage.getItem('token');
@@ -52,10 +45,10 @@ const Loading = ({navigation}) => {
             // email: data.user.email,
             // phone: data.user.phone,
             active: true,
-            Auth:true,
+            Auth: true,
           });
           navigation.navigate('home');
-        } 
+        }
       } else {
         navigation.navigate('login');
       }
@@ -63,7 +56,6 @@ const Loading = ({navigation}) => {
       console.log(error);
     }
   };
-  
 
   useEffect(() => {
     Animated.timing(LogoAnime, {
@@ -73,13 +65,21 @@ const Loading = ({navigation}) => {
       duration: 2000,
       useNativeDriver: true,
     }).start(() => {
-        setLoadingSpinner(true);
+      setLoadingSpinner(true);
       if (LoadingSpinner === true) setTimeout(() => tokenAuth(), 1200);
-    })
+    });
   }, [LoadingSpinner]);
 
   return (
-    <View style={style.container}>
+    <View
+      style={[
+        style.container,
+        {
+          backgroundColor: dark
+            ? loadingDarkScreen.backgroundColor
+            : loadingLightScreen.backgroundColor,
+        },
+      ]}>
       <Animated.View
         style={{
           opacity: LogoAnime,
@@ -92,7 +92,13 @@ const Loading = ({navigation}) => {
             },
           ],
         }}>
-        <Text style={style.logoText}><FontAwesome5Icon name={'autoprefixer'} size={120} /></Text>
+        <Text
+          style={[
+            style.logoText,
+            {color: dark ? loadingDarkScreen.color : loadingLightScreen.color},
+          ]}>
+          <FontAwesome5Icon name={'autoprefixer'} size={120} />
+        </Text>
         {/* <Text style={style.logoTextDes}>{AppName}</Text> */}
       </Animated.View>
     </View>
@@ -104,23 +110,21 @@ export default Loading;
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFA500',
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
     flex: 1,
-    width:220,
-    height:40
+    width: 220,
+    height: 40,
   },
 
   logoText: {
-    color: '#FFFFFF',
     fontFamily: 'GoogleSans-Bold',
     fontSize: 100,
     fontWeight: '300',
     justifyContent: 'center',
-    alignSelf:'center'
+    alignSelf: 'center',
   },
   logoTextDes: {
     color: '#FFFFFF',
@@ -128,6 +132,6 @@ const style = StyleSheet.create({
     fontSize: 20,
     fontWeight: '300',
     justifyContent: 'center',
-    alignSelf:'center'
-  }
+    alignSelf: 'center',
+  },
 });
