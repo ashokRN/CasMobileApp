@@ -31,11 +31,13 @@ const ProfileImage = () => {
               source={{uri: avatar}}
               style={{width: 100, height: 100, borderRadius: 150 / 2}}
             />
-            {/* <View
+            <View
               style={[
                 styles.activeIndicatior,
                 active ? onlineIndicator : offlineIndicator,
-              ]}></View> */}
+            ]}>
+            <Text style={{color:active?'#ffffff':'#000000'}}>{active?'Online':'Offline'}</Text>
+              </View>
             <View style={styles.profileText}>
               <Text style={dark ? Darktext : LightText}>
                 {user.ProfileName}
@@ -55,12 +57,14 @@ const styles = StyleSheet.create({
     },
   
     activeIndicatior: {
-      position: 'absolute',
-      top: 95,
-      left: 205,
-      zIndex: 5,
-      width: 15,
-      height: 15,
+      // position: 'absolute',
+      top: 10,
+      // left: 205,
+      // zIndex: 5,
+      justifyContent: 'center',
+      alignItems:'center',
+      width: 50,
+      height: 20,
       borderRadius: 20,
     },
     profileContainer: {

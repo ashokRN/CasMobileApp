@@ -9,6 +9,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {GlobalContext} from '../../../services/GlobalContext';
 import {globalStyle} from '../../../services/GlobalStyles';
 import HomePosts from './HomePosts';
+import Inboxs from '../InboxsScreen/Inbox';
+import Attenace from '../AttenaceScreen/Attenace'
 
 const Tab = createBottomTabNavigator();
 
@@ -83,8 +85,8 @@ const Home = ({navigation}) => {
         },
       })}>
       <Tab.Screen name="Home" component={HomePosts} />
-      <Tab.Screen name="Feed" component={Profile} />
-      <Tab.Screen name="Notification" component={Profile} />
+      <Tab.Screen name="Feed" component={Attenace} />
+      <Tab.Screen name="Notification" component={Inboxs} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

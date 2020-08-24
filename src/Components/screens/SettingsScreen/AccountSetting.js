@@ -43,7 +43,7 @@ const AccountSetting = ({navigation}) => {
   return (
     <SafeAreaView
       style={[styles.container, dark ? DarkBackground : LightBackground]}>
-      <ProfileImage />
+      {/* <ProfileImage /> */}
       <SectionList
         style={styles.sectionslist}
         sections={settings}
@@ -56,7 +56,8 @@ const AccountSetting = ({navigation}) => {
             <View
               style={[styles.item, dark ? DarkBackground : LightBackground]}>
               <Text style={styles.iconText}>
-                <FontAwesome5 name={SettingsIconsRender(item)} size={18} color={dark?themes.dark.color:themes.light.color} />
+                <FontAwesome5 name={SettingsIconsRender(item)} size={18} color={'#ffa500'} />
+                 {/* //dark?themes.dark.color:themes.light.color */}
               </Text>
               <Text style={[styles.title, dark ? Darktext : LightText]}>
                 {item}
