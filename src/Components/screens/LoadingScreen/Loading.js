@@ -31,7 +31,7 @@ const Loading = ({navigation}) => {
             ...globalState,
             token: value,
             user: {
-              ProfileName: data.user.profileId,
+              ProfileName: data.user.profileName,
               Name: data.user.name,
               Email: data.user.email,
               Phone: data.user.phone,

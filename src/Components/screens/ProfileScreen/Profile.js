@@ -26,7 +26,7 @@ const Profile = () => {
             </Text>
             <Text
               style={[styles.profileDetailText, dark ? Darktext : LightText]}>
-              {user[key]}
+              {user[key]?user[key]:`Set ${key}`}
             </Text>
           </View>
         ))}

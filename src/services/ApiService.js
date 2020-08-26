@@ -3,9 +3,9 @@ const axios = require('axios');
 exports.login = async (regno, password) => {
   try {
     const response = await axios.post(
-      'http://192.168.1.9:3000/api/user/login',
+      'http://192.168.1.9:3000/api/login',
       {
-        email: regno,
+        regNo: regno,
         password: password,
       },
     );
@@ -18,7 +18,7 @@ exports.login = async (regno, password) => {
 exports.getUser = async (token) => {
   try {
     const response = await axios.get(
-      'http://192.168.1.9:3000/api/user/get', {
+      'http://192.168.1.9:3000/api/get', {
       headers: {
         Authorization: `${token}`
       }
