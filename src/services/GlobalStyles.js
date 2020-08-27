@@ -1,5 +1,5 @@
 const {StyleSheet} = require('react-native');
-const {themes} = require('./settings/Themes.js');
+const {themes} = require('../settings/Themes.js');
 
 const {light, dark, Indicators, logoTheme, logoBorder,StableColor} = themes;
 

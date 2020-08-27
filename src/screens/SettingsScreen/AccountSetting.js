@@ -8,12 +8,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {settings} from '../../../services/settings/SettingsData';
-import {globalStyle} from '../../../services/GlobalStyles';
-import {GlobalContext} from '../../../services/GlobalContext';
+import {settings} from '../../settings/SettingsData';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { themes } from '../../../services/settings/Themes';
-import ProfileImage from '../ProfileScreen/ProfileImage';
+import { themes } from '../../settings/Themes';
+// import ProfileImage from '../ProfileScreen/ProfileImage';
 
 const AccountSetting = ({navigation}) => {
   const [globalState, setGlobalState] = useContext(GlobalContext);

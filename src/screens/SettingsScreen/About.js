@@ -1,8 +1,8 @@
-import React from 'react';
-import {Text, SafeAreaView, StyleSheet} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
+import React, { useReducer, useContext } from 'react';
+import {ScrollView,Text, SafeAreaView, StyleSheet,View,TouchableOpacity} from 'react-native';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
+import { GlobalReducer } from '../../services/StateManagement';
 
 const About = () => {
   const [globalState, setGlobalState] = React.useContext(GlobalContext);

@@ -4,17 +4,17 @@ import {
   StyleSheet,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Profile from '../ProfileScreen/Profile';
+import Profile from '../screens/ProfileScreen/Profile';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
-import HomePosts from './HomePosts';
-import Inboxs from '../InboxsScreen/Inbox';
-import Attenace from '../AttenaceScreen/Attenace'
+import {GlobalContext} from '../services/GlobalContext';
+import {globalStyle} from '../services/GlobalStyles';
+import Home from '../screens/HomeScreen/Home';
+import Inboxs from '../screens/InboxsScreen/Inbox';
+import Attenace from '../screens/AttenaceScreen/Attenace'
 
 const Tab = createBottomTabNavigator();
 
-const Home = ({navigation}) => {
+const HomeNavigation = ({navigation}) => {
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
   const {dark, avatar} = globalState;
   const {
@@ -84,7 +84,7 @@ const Home = ({navigation}) => {
           );
         },
       })}>
-      <Tab.Screen name="Home" component={HomePosts} />
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Feed" component={Attenace} />
       <Tab.Screen name="Notification" component={Inboxs} />
       <Tab.Screen name="Profile" component={Profile} />
@@ -92,7 +92,7 @@ const Home = ({navigation}) => {
   );
 };
 
-export default Home;
+export default HomeNavigation;
 
 const styles = StyleSheet.create({
   profileTabLogo: {

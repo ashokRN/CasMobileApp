@@ -1,10 +1,10 @@
 import React, {useRef, useState, useEffect, useContext} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {GlobalContext} from '../../../services/GlobalContext';
-import API from '../../../services/ApiService';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
+import API from '../../services/ApiService';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import {globalStyle} from '../../../services/GlobalStyles';
 
 const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
@@ -41,9 +41,6 @@ const Loading = ({navigation}) => {
               Course: data.user.course,
               Graduate: data.user.graduate,
             },
-            // name: data.user.name,
-            // email: data.user.email,
-            // phone: data.user.phone,
             active: true,
             Auth: true,
           });

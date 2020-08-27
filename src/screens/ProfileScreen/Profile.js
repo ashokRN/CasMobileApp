@@ -1,8 +1,8 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
-import ProfileImage from './ProfileImage';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
+import ProfileImage from '../../Components/Profile/ProfileImage';
 
 const Profile = () => {
   const [globalState, setGlobalState] = useContext(GlobalContext);

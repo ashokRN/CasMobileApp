@@ -7,9 +7,9 @@ import {
   TextInput,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import API from '../../../services/ApiService';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
+import API from '../services/ApiService';
+import {GlobalContext} from '../services/GlobalContext';
+import {globalStyle} from '../services/GlobalStyles';
 
 const Login = ({navigation}) => {
   const [regno, setRegno] = useState();

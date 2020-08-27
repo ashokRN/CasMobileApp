@@ -1,11 +1,10 @@
 import React from 'react';
 import { Text, SafeAreaView, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
-
-const TermsAndPolicy = () => {
-    const [globalState, setGlobalState] = React.useContext(GlobalContext);
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
+const LocationSetting = () => {
+  const [globalState, setGlobalState] = React.useContext(GlobalContext);
   const {dark} = globalState;
   const {DarkBackground, Darktext, LightBackground, LightText,settingHeaderText} = globalStyle;
 
@@ -18,27 +17,27 @@ const TermsAndPolicy = () => {
             settingHeaderText,
             dark ? [DarkBackground, Darktext] : [LightBackground, LightText],
           ]}>
-          Terms and Policy
+          Location
         </Text>
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
-export default TermsAndPolicy
+export default LocationSetting;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    optionContainer: {
-      fontFamily: 'GoogleSans-Bold',
-      padding: 15,
-      backgroundColor: '#ffffff',
-    },
-    optionText: {
-      fontFamily: 'GoogleSans-Bold',
-      fontSize: 15,
-      fontWeight: '600',
-    },
-  });
+  container: {
+    flex: 1,
+  },
+  optionContainer: {
+    fontFamily: 'GoogleSans-Bold',
+    padding: 15,
+    backgroundColor: '#ffffff',
+  },
+  optionText: {
+    fontFamily: 'GoogleSans-Bold',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+});

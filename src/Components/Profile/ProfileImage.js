@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
 
 const ProfileImage = () => {
     const [globalState, setGlobalState] = useContext(GlobalContext);

@@ -1,21 +1,22 @@
 import React, {useContext, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import Loading from '../Components/screens/LoadingScreen/Loading';
-import Login from '../Components/screens/Auth/Login';
-import Signup from '../Components/screens/Auth/Signup';
-import Home from '../Components/screens/HomeScreen/Home';
-import AccountSetting from '../Components/screens/SettingsScreen/AccountSetting';
-import LocationSetting from '../Components/screens/SettingsScreen/LocationSetting';
-import ThemeSetting from '../Components/screens/SettingsScreen/ThemeSetting';
-import ProfileSetting from '../Components/screens/SettingsScreen/ProfileSetting';
-import About from '../Components/screens/SettingsScreen/About';
-import Terms from '../Components/screens/SettingsScreen/TermsAndPolicy';
+import AsyncStorage from '@react-native-community/async-storage';
+import Loading from '../screens/LoadingScreen/Loading';
+import Login from '../Auth/Login';
+import Signup from '../Auth/Signup';
+import HomePage from '../routes/HomeNavigations';
+import AccountSetting from '../screens/SettingsScreen/AccountSetting';
+import LocationSetting from '../screens/SettingsScreen/LocationSetting';
+import ThemeSetting from '../screens/SettingsScreen/ThemeSetting';
+import ProfileSetting from '../screens/SettingsScreen/ProfileSetting';
+import About from '../screens/SettingsScreen/About';
+import Terms from '../screens/SettingsScreen/TermsAndPolicy';
 import {createStackNavigator,} from '@react-navigation/stack';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import { useDarkMode } from 'react-native-dark-mode'
+import TitleLogo from '../Components/Logo/Title';
+import Logo from '../Components/Logo/Logo';
+import API from '../services/ApiService';
 
 const Stack = createStackNavigator();
 
@@ -26,8 +27,6 @@ const Routes = () => {
   const {
     DarkBackground,
     LightBackground,
-    logoContainer,
-    logoText,
     Darktext,
     LightText,
     StaticColor
@@ -45,44 +44,6 @@ const Routes = () => {
   },[isDark])
 
   
-
-  const SettingIcon = () => {
-    const navigation = useNavigation();
-    return (
-      <TouchableOpacity
-        style={{right: 25, top: 3}}
-        onPress={() => navigation.navigate('settings')}>
-        <FontAwesome5Icon
-          name={'cog'}
-          size={20}
-          color={StaticColor.color}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  const AppLogo = () => {
-    return (
-      <TouchableOpacity style={{left:25}}>
-        <FontAwesome5Icon
-          name={'autoprefixer'}
-          size={25}
-          color={StaticColor.color}
-        />
-      </TouchableOpacity>
-    )
-  }
-
-  const TitleLogo = () => {
-    return (
-      <View style={logoContainer}>
-        <Text style={[logoText, StaticColor]}>
-          Any Where
-        </Text>
-      </View>
-    );
-  };
-
   return (
     <React.Fragment>
       {Auth ? (
@@ -98,10 +59,10 @@ const Routes = () => {
           }}>
           <Stack.Screen
             name="home"
-            component={Home}
+            component={HomePage}
             options={{
-              headerLeft: (props) => <AppLogo {...props} />,
-              headerTitle: (props) => <TitleLogo {...props} />,
+              headerLeft: (props) => <Logo name={'autoprefixer'} style={{left: 15}} size={25} color={StaticColor.color} />,
+              headerTitle: (props) => <TitleLogo title={'Any Where'} />,
               headerStyle: {
                 backgroundColor: dark
                   ? DarkBackground.backgroundColor
@@ -112,7 +73,13 @@ const Routes = () => {
                 fontWeight: 'bold',
                 letterSpacing: 10,
               },
-              headerRight: (props) => <SettingIcon {...props} />,
+              headerRight: (props) => 
+              <Logo 
+                  style={{right: 25, top: 3}}
+                  screen={'settings'} 
+                  name={'cog'} 
+                  size={20} 
+                  color={StaticColor.color} />,
               headerTitleAlign:'center'
             }}
           />

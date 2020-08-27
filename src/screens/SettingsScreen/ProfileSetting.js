@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, SafeAreaView, StyleSheet} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
 
-const LocationSetting = () => {
+const ProfileSetting = ({navigation}) => {
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
   const {dark} = globalState;
   const {DarkBackground, Darktext, LightBackground, LightText,settingHeaderText} = globalStyle;
@@ -18,14 +18,14 @@ const LocationSetting = () => {
             settingHeaderText,
             dark ? [DarkBackground, Darktext] : [LightBackground, LightText],
           ]}>
-          Location
+          Profile
         </Text>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default LocationSetting;
+export default ProfileSetting;
 
 const styles = StyleSheet.create({
   container: {

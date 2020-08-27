@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
 import {ScrollView, Switch} from 'react-native-gesture-handler';
-import {GlobalContext} from '../../../services/GlobalContext';
-import {globalStyle} from '../../../services/GlobalStyles';
+import {GlobalContext} from '../../services/GlobalContext';
+import {globalStyle} from '../../services/GlobalStyles';
 
 const ThemeSetting = () => {
   const [globalState, setGlobalState] = React.useContext(GlobalContext);
