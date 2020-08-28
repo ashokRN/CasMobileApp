@@ -8,7 +8,7 @@ export const reducer = (state, action) => {
         Auth: true,
         token: action.payload.token,
         active: true,
-        avatar: 'https://bit.ly/3l9V5v2',
+        avatar: user.profilePic,
         user: {
           ProfileName: user.profileName,
           Name: user.name,

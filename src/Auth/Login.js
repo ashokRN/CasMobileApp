@@ -34,7 +34,6 @@ const Login = ({navigation}) => {
         }
         if (response) {
           let data = response.data;
-          
           await state.StateDispatch({type:"LOGIN",payload:{user:data.user,token:value,active:true,Auth:true}});
           navigation.navigate('home');
         }

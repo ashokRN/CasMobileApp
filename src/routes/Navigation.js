@@ -22,8 +22,7 @@ const Routes = () => {
 
   const {State, StateDispatch}= useContext(GlobalContext);
   const {dark, Auth} = State;
-  console.log(State,'States');
-
+  
   const { DarkBackground, LightBackground, Darktext, LightText, StaticColor } = globalStyle;
 
   const isDark = useDarkMode();
@@ -77,11 +76,11 @@ const Routes = () => {
               headerTitleAlign:'center'
             }}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="login"
             component={Login}
             options={{headerShown: false}}
-          />
+          /> */}
           <Stack.Screen
             name="signup"
             component={Signup}

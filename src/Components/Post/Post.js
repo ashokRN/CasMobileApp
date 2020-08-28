@@ -10,27 +10,48 @@ const window = Dimensions.get('window');
 const Post = (props) => {
   const {State, StateDispatch} = React.useContext(GlobalContext);
   const {avatar, dark} = State;
-  const {DarkBackground, LightBackground} = globalStyle;
+  const {DarkBackground, LightBackground, Darktext, LightText} = globalStyle;
   const {height, width} = window;
 
   return (
     <View style={styles.postCard}>
-      <View style={[styles.homeProfileContainer]}>
+      <View
+        style={[
+          styles.homeProfileContainer,
+          dark ? DarkBackground : LightBackground,
+        ]}>
         <Image
           source={{uri: props.posterImage}}
           style={styles.homeProfileRoundedImage}
         />
         <View style={styles.homeProfileTextContainer}>
-          <Text style={styles.homeProfileNameText}>{props.posterName}</Text>
-          <Text style={styles.homeProfileTimeText}>
+          <Text
+            style={[styles.homeProfileNameText, dark ? Darktext : LightText]}>
+            {props.posterName}
+          </Text>
+          <Text
+            style={[styles.homeProfileTimeText, dark ? Darktext : LightText]}>
             {props.postTime}&nbsp;.&nbsp;
-            <FontAwesome5 name={'globe-asia'} />
+            <FontAwesome5
+              name={'globe-asia'}
+              color={dark ? Darktext.color : LightText.color}
+            />
           </Text>
         </View>
       </View>
       {props.postText ? (
-        <View style={styles.postTextContainer}>
-          <Text style={styles.postText}>{props.postText}</Text>
+        <View
+          style={[
+            styles.postTextContainer,
+            dark ? DarkBackground : LightBackground,
+          ]}>
+          <Text
+            style={[
+              styles.postText,
+              {color: dark ? Darktext.color : LightText.color},
+            ]}>
+            {props.postText}
+          </Text>
         </View>
       ) : null}
 
@@ -47,15 +68,25 @@ const Post = (props) => {
         </View>
       ) : null}
 
-      <View style={[styles.activityContainer]}>
+      <View
+        style={[
+          styles.activityContainer,
+          dark ? DarkBackground : LightBackground,
+        ]}>
         <View style={[styles.activityIconContainer]}>
-          <Text>like</Text>
+          <Text style={{color: dark ? Darktext.color : LightText.color}}>
+            save
+          </Text>
         </View>
         <View style={[styles.activityIconContainer]}>
-          <Text>comment</Text>
+          <Text style={{color: dark ? Darktext.color : LightText.color}}>
+            view
+          </Text>
         </View>
         <View style={[styles.activityIconContainer]}>
-          <Text>share</Text>
+          <Text style={{color: dark ? Darktext.color : LightText.color}}>
+            share
+          </Text>
         </View>
       </View>
     </View>

@@ -28,3 +28,16 @@ exports.getUser = async (token) => {
     throw error
   }
 }
+
+exports.getAllPosts = async (token) =>{
+  try {
+    const response = await axios.get('http://192.168.1.9:3000/api/post/getAll',{
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+    return await response;
+  } catch (error) {
+    throw error
+  }
+}
