@@ -10,13 +10,13 @@ import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
 import Home from '../screens/HomeScreen/Home';
 import Inboxs from '../screens/InboxsScreen/Inbox';
-import Attenace from '../screens/AttenaceScreen/Attenace'
+import AttenaceNavigation from './AttenaceNavigation';
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = ({navigation}) => {
 
-  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {State } = React.useContext(GlobalContext);
   const {avatar, dark} = State;
   
   const {
@@ -87,7 +87,7 @@ const HomeNavigation = ({navigation}) => {
         },
       })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Feed" component={Attenace} />
+      <Tab.Screen name="Feed" component={AttenaceNavigation} />
       <Tab.Screen name="Notification" component={Inboxs} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>

@@ -1,17 +1,11 @@
 import React, {useContext} from 'react';
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView, Text} from 'react-native';
 import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import Post from '../../Components/Post/Post';
 
 const HomePosts = () => {
-  
-  const {State, StateDispatch}= useContext(GlobalContext);
+  const {State, StateDispatch} = useContext(GlobalContext);
   const {avatar, dark} = State;
 
   const {DarkBackground, LightBackground} = globalStyle;
@@ -24,50 +18,57 @@ const HomePosts = () => {
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            urlType={'video'}
+            url={'https://bit.ly/2Ey21BK'}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            postText={
+              'Congress MP and business H.Vasanthakumar died of COVID-19 at a private hospital in Chennai on Friday'
+            }
+            // url={avatar}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            url={avatar}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            urlType={'video'}
+            url={'https://bit.ly/2EzAYpN'}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            url={avatar}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            urlType={'video'}
+            url={'https://bit.ly/34H6ZqL'}
           />
           <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
+            url={avatar}
           />
-          <Post
+          {/* <Post
             posterImage={avatar}
             posterName={'Ashok'}
             postTime={'4h'}
-            contentImage={avatar}
-          />
+            urlType={'video'}
+            url={"https://bit.ly/2ELCLaR"}
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

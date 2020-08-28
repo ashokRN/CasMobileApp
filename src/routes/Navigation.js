@@ -1,5 +1,4 @@
 import React, {useContext, useEffect} from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../screens/LoadingScreen/Loading';
 import Login from '../Auth/Login';
 import Signup from '../Auth/Signup';

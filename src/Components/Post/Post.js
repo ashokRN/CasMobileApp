@@ -1,14 +1,9 @@
 import React, {useContext} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-} from 'react-native';
+import {View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import VideoContainer from '../VideoContainer/VideoContainer';
 
 const window = Dimensions.get('window');
 
@@ -17,7 +12,6 @@ const Post = (props) => {
   const {avatar, dark} = State;
   const {DarkBackground, LightBackground} = globalStyle;
   const {height, width} = window;
-  const count = 10;
 
   return (
     <View style={styles.postCard}>
@@ -34,12 +28,25 @@ const Post = (props) => {
           </Text>
         </View>
       </View>
-      <View style={{width: width}}>
-        <Image
-          source={{uri: props.contentImage}}
-          style={[styles.postContent, {width: width, height: 300}]}
-        />
-      </View>
+      {props.postText ? (
+        <View style={styles.postTextContainer}>
+          <Text style={styles.postText}>{props.postText}</Text>
+        </View>
+      ) : null}
+
+      {props.url ? (
+        <View style={{widht: Dimensions.get('window').width, height: 300}}>
+          {props.urlType === 'video' ? (
+            <VideoContainer url={props.url} />
+          ) : (
+            <Image
+              source={{uri: props.url}}
+              style={[styles.postContent, {width: width, height: 300}]}
+            />
+          )}
+        </View>
+      ) : null}
+
       <View style={[styles.activityContainer]}>
         <View style={[styles.activityIconContainer]}>
           <Text>like</Text>
@@ -101,5 +108,18 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  postTextContainer: {
+    paddingHorizontal: 15,
+    paddingBottom: 10,
+    justifyContent: 'center',
+    alignContent: 'stretch',
+  },
+  postText: {
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    alignSelf: 'baseline',
+    letterSpacing: 1,
+    lineHeight: 25,
   },
 });
