@@ -15,8 +15,10 @@ import Attenace from '../screens/AttenaceScreen/Attenace'
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = ({navigation}) => {
-  const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark, avatar} = globalState;
+
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {avatar, dark} = State;
+  
   const {
     darkTabLogoBorder,
     lightTabLogoBorder,

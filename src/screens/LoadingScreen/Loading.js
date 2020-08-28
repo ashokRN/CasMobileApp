@@ -1,19 +1,18 @@
 import React, {useRef, useState, useEffect, useContext} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import API from '../../services/ApiService';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import { GlobalContext } from '../../services/GlobalContext';
 
 const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
   const [LoadingSpinner, setLoadingSpinner] = useState(false);
-  const [globalState, setGlobalState] = useContext(GlobalContext);
-
   const {loadingDarkScreen, loadingLightScreen} = globalStyle;
 
-  const {dark} = globalState;
+  const {State, StateDispatch}= useContext(GlobalContext);
+  const {dark} = State;
 
   const tokenAuth = async () => {
     try {
@@ -27,23 +26,7 @@ const Loading = ({navigation}) => {
         }
         if (response) {
           let data = response.data;
-          setGlobalState({
-            ...globalState,
-            token: value,
-            user: {
-              ProfileName: data.user.profileName,
-              Name: data.user.name,
-              Email: data.user.email,
-              Phone: data.user.phone,
-              DOB: data.user.dob,
-              RegistrationNo: data.user.regNo,
-              Department: data.user.department,
-              Course: data.user.course,
-              Graduate: data.user.graduate,
-            },
-            active: true,
-            Auth: true,
-          });
+          await StateDispatch({type:"LOGIN",payload:{user:data.user,token:value,active:true,Auth:true}});
           navigation.navigate('home');
         }
       } else {

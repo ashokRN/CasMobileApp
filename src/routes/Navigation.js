@@ -16,30 +16,25 @@ import {globalStyle} from '../services/GlobalStyles';
 import { useDarkMode } from 'react-native-dark-mode'
 import TitleLogo from '../Components/Logo/Title';
 import Logo from '../Components/Logo/Logo';
-import API from '../services/ApiService';
 
 const Stack = createStackNavigator();
 
 const Routes = () => {
-  const [globalState, setGlobalState] = useContext(GlobalContext);
 
-  const {Auth, dark} = globalState;
-  const {
-    DarkBackground,
-    LightBackground,
-    Darktext,
-    LightText,
-    StaticColor
-  } = globalStyle;
+  const {State, StateDispatch}= useContext(GlobalContext);
+  const {dark, Auth} = State;
+  console.log(State,'States');
+
+  const { DarkBackground, LightBackground, Darktext, LightText, StaticColor } = globalStyle;
 
   const isDark = useDarkMode();
 
   useEffect(() => {
     if (isDark === true) {
-      setGlobalState({ ...globalState, dark: isDark });
+      StateDispatch({ type:"DARK", dark: isDark });
     }
     if (isDark === false) {
-      setGlobalState({ ...globalState, dark: isDark });
+      StateDispatch({ type:"DARK", dark: isDark });
     }
   },[isDark])
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   View,
   StyleSheet,
@@ -12,11 +12,13 @@ import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
 
 const Login = ({navigation}) => {
+  const state = useContext(GlobalContext);
+  const {dark} = state.State;
+
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
-  const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark} = globalState;
   const {loadingDarkScreen, loadingLightScreen, lightBackground} = globalStyle;
+  
   let textInput = React.useRef();
   let textInput2 = React.useRef();
 
@@ -28,27 +30,12 @@ const Login = ({navigation}) => {
         try {
           response = await API.getUser(value);
         } catch (error) {
-          console.log(error.message);
+          navigation.navigate('login');
         }
         if (response) {
           let data = response.data;
-          setGlobalState({
-            ...globalState,
-            token: value,
-            user: {
-              ProfileName: data.user.profileName,
-              Name: data.user.name,
-              Email: data.user.email,
-              Phone: data.user.phone,
-              DOB: data.user.dob,
-              RegistrationNo: data.user.regNo,
-              Department: data.user.department,
-              Course: data.user.course,
-              Graduate: data.user.graduate,
-            },
-            active: true,
-            Auth: true,
-          });
+          
+          await state.StateDispatch({type:"LOGIN",payload:{user:data.user,token:value,active:true,Auth:true}});
           navigation.navigate('home');
         }
       } else {

@@ -5,10 +5,10 @@ import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 
 const ThemeSetting = () => {
-  const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {dark} = State;
   const {DarkBackground, Darktext, LightBackground, LightText,settingHeaderText} = globalStyle;
-  const toggleSwitch = () => setGlobalState({...globalState, dark: !dark});
+  const toggleSwitch = () => StateDispatch({type:"DARK", dark: !dark});
 
   return (
     <SafeAreaView
@@ -20,10 +20,10 @@ const ThemeSetting = () => {
           <Switch
             style={styles.switchBtn}
             trackColor={{false: '#767577', true: '#ffa500'}}
-            thumbColor={globalState.dark ? '#f4f3f4' : '#f4f3f4'}
+            thumbColor={dark ? '#f4f3f4' : '#f4f3f4'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
-            value={globalState.dark}
+            value={dark}
           />
         </View>
       </ScrollView>

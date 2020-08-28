@@ -10,8 +10,10 @@ import {globalStyle} from '../../services/GlobalStyles';
 import Post from '../../Components/Post/Post';
 
 const HomePosts = () => {
-  const [globalState, setGlobalState] = useContext(GlobalContext);
-  const {avatar, dark} = globalState;
+  
+  const {State, StateDispatch}= useContext(GlobalContext);
+  const {avatar, dark} = State;
+
   const {DarkBackground, LightBackground} = globalStyle;
 
   return (

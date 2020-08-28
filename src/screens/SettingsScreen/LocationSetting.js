@@ -4,8 +4,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 const LocationSetting = () => {
-  const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {dark} = State;
   const {DarkBackground, Darktext, LightBackground, LightText,settingHeaderText} = globalStyle;
 
   return (

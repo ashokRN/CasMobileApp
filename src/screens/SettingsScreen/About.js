@@ -5,8 +5,8 @@ import {globalStyle} from '../../services/GlobalStyles';
 import { GlobalReducer } from '../../services/StateManagement';
 
 const About = () => {
-  const [globalState, setGlobalState] = React.useContext(GlobalContext);
-  const {dark} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {dark} = State;
   const {DarkBackground, Darktext, LightBackground, LightText,settingHeaderText} = globalStyle;
 
   return (

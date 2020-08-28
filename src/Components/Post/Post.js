@@ -13,8 +13,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 const window = Dimensions.get('window');
 
 const Post = (props) => {
-  const [globalState, setGlobalState] = useContext(GlobalContext);
-  const {avatar, dark} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {avatar, dark} = State;
   const {DarkBackground, LightBackground} = globalStyle;
   const {height, width} = window;
   const count = 10;

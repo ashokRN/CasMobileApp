@@ -5,8 +5,8 @@ import {globalStyle} from '../../services/GlobalStyles';
 import ProfileImage from '../../Components/Profile/ProfileImage';
 
 const Profile = () => {
-  const [globalState, setGlobalState] = useContext(GlobalContext);
-  const {dark, user} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {dark, user} = State;
   const {DarkBackground, LightBackground, Darktext, LightText} = globalStyle;
 
   return (

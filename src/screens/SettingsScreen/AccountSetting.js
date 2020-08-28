@@ -12,15 +12,18 @@ import {settings} from '../../settings/SettingsData';
 import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { themes } from '../../settings/Themes';
-// import ProfileImage from '../ProfileScreen/ProfileImage';
+import { useDarkMode } from 'react-native-dark-mode';
 
 const AccountSetting = ({navigation}) => {
-  const [globalState, setGlobalState] = useContext(GlobalContext);
-  const {dark} = globalState;
+  const {State, StateDispatch} = React.useContext(GlobalContext);
+  const {dark} = State;
   const { DarkBackground, LightBackground, Darktext, LightText } = globalStyle;
+
+  const isDark = useDarkMode();
+
   const logOut = async () => {
     await AsyncStorage.clear();
+    await StateDispatch({type:"LOGOUT", dark:isDark});
     navigation.navigate('login');
   };
 
