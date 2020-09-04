@@ -26,7 +26,7 @@ const HomePosts = () => {
     try {
       reponse = await API.getAllPosts(token);
       if (reponse) {
-        setPosts(reponse.data.posts);
+        setPosts(reponse.data.Posts);
         if(refreshPost === true) {
           setRefreshPost(false)
         }
@@ -46,9 +46,9 @@ const HomePosts = () => {
         posterImage={item.poster.profilePic}
         posterName={item.poster.name}
         postTime={'4h'}
-        urlType={item.mediaType}
-        postText={item.postText ? item.postText : null}
-        url={item.postMediaUrl}
+        urlType={item.urlType}
+        postText={item.postTitle ? item.postTitle : null}
+        url={item.url}
       />
     );
   };
@@ -60,7 +60,7 @@ const HomePosts = () => {
           onRefresh={()=> setRefreshPost(true)}
           refreshing={refreshPost}
           renderItem={postRender}
-          keyExtractor={(item) => item._id}
+          keyExtractor={(item) => item.createdAt}
         />
     </React.Fragment>
   );

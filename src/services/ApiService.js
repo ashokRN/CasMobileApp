@@ -1,11 +1,12 @@
 const axios = require('axios');
+const config = require('../config/config');
 
-exports.login = async (regno, password) => {
+exports.login = async (email, password) => {
   try {
     const response = await axios.post(
-      'http://192.168.1.9:3000/api/login',
+      `${config.api_url}/login`,
       {
-        regNo: regno,
+        email: email,
         password: password,
       },
     );
@@ -18,7 +19,7 @@ exports.login = async (regno, password) => {
 exports.getUser = async (token) => {
   try {
     const response = await axios.get(
-      'http://192.168.1.9:3000/api/get', {
+      `${config.api_url}/getUser`, {
       headers: {
         Authorization: `${token}`
       }
@@ -31,10 +32,12 @@ exports.getUser = async (token) => {
 
 exports.getAllPosts = async (token) =>{
   try {
-    const response = await axios.get('http://192.168.1.9:3000/api/post/getAll',{
+    const response = await axios.get(
+      `${config.api_url}/post/getAll`,{
       headers: {
         Authorization: `${token}`
       }
+      
     });
     return await response;
   } catch (error) {
