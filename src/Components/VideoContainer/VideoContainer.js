@@ -11,6 +11,7 @@ const VideoContainer = (props) => {
         <Video source={{uri: props.url}}
         resizeMode={'cover'}
         playInBackground={false}
+        playWhenInactive={true}
         paused={pause}
        style={{width:'100%',
        height:"100%",
