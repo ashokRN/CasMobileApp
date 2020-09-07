@@ -1,12 +1,12 @@
 const axios = require('axios');
 const config = require('../config/config');
 
-exports.login = async (email, password) => {
+exports.login = async (regno, password) => {
   try {
     const response = await axios.post(
-      `${config.api_url}/login`,
+      `${config.api_url}/api/login`,
       {
-        email: email,
+        regNo: regno,
         password: password,
       },
     );
@@ -19,7 +19,7 @@ exports.login = async (email, password) => {
 exports.getUser = async (token) => {
   try {
     const response = await axios.get(
-      `${config.api_url}/getUser`, {
+      `${config.api_url}/api/get`, {
       headers: {
         Authorization: `${token}`
       }
@@ -33,7 +33,7 @@ exports.getUser = async (token) => {
 exports.getAllPosts = async (token) =>{
   try {
     const response = await axios.get(
-      `${config.api_url}/post/getAll`,{
+      `${config.api_url}/api/post/getAll`,{
       headers: {
         Authorization: `${token}`
       }

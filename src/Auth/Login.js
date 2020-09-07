@@ -15,7 +15,7 @@ const Login = ({navigation}) => {
   const state = useContext(GlobalContext);
   const {dark} = state.State;
 
-  const [email, setEmail] = useState();
+  const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const {loadingDarkScreen, loadingLightScreen, lightBackground} = globalStyle;
   
@@ -48,7 +48,7 @@ const Login = ({navigation}) => {
   const loginSubmit = async () => {
     let response;
     try {
-      response = await API.login(email, password);
+      response = await API.login(regno, password);
     } catch (error) {
       console.log(error.message);
     }
@@ -102,13 +102,12 @@ const Login = ({navigation}) => {
                     },
                   ]}
                   underlineColorAndroid="transparent"
-                  placeholder="email"
+                  placeholder="Registration No"
                   placeholderTextColor={dark ? '#ffffff' : '#000000'}
                   autoCapitalize="none"
                   ref={textInput}
-                  keyboardType={'email-address'}
                   onSubmitEditing={() => textInput2.current.focus()}
-                  onChangeText={(text) => setEmail(text)}
+                  onChangeText={(text) => setRegno(text)}
                 />
               </View>
               <View style={styles.formItems}>

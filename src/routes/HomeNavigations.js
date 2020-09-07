@@ -11,6 +11,7 @@ import {globalStyle} from '../services/GlobalStyles';
 import Home from '../screens/HomeScreen/Home';
 import Inboxs from '../screens/InboxsScreen/Inbox';
 import AttenaceNavigation from './AttenaceNavigation';
+import CreatePost from '../Components/Post/CreatePost';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,21 +39,17 @@ const HomeNavigation = ({navigation}) => {
   };
 
   const lightthemeStyles = {
-    alignSelf: 'center',
     backgroundColor: dark
       ? darkTabBackground.backgroundColor
       : lightTabBackground.backgroundColor,
-    borderRadius: 20,
-    bottom: 15,
-    width: 340,
   };
   return (
     <Tab.Navigator
       initialRouteName="Home"
       tabBarOptions={{
         tabStyle: {
-          marginBottom: dark ? 5 : 0,
-          marginTop: dark ? 5 : 0,
+          // marginBottom: dark ? 5 : 0,
+          // marginTop: dark ? 5 : 0,
         },
         showLabel: false,
         activeTintColor: dark
@@ -64,10 +61,12 @@ const HomeNavigation = ({navigation}) => {
         style: dark ? darkthemeStyles : lightthemeStyles,
       }}
       screenOptions={({route}) => ({
+        tabBarVisible:route.name === 'Post'? false : true,
         tabBarIcon: ({color}) => {
           const icons = {
             Home: 'home',
             Feed: 'rss-square',
+            Post:'plus-circle',
             Notification: 'envelope',
           };
           if (route.name === 'Profile') {
@@ -88,6 +87,7 @@ const HomeNavigation = ({navigation}) => {
       })}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Feed" component={AttenaceNavigation} />
+      <Tab.Screen name="Post" component={CreatePost} />
       <Tab.Screen name="Notification" component={Inboxs} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
