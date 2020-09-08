@@ -6,8 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  AsyncStorage
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import {settings} from '../../settings/SettingsData';
 import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';

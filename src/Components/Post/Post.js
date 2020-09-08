@@ -4,6 +4,7 @@ import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import VideoContainer from '../VideoContainer/VideoContainer';
+import TwitterTextView from 'react-native-twitter-textview';
 
 const window = Dimensions.get('window');
 
@@ -45,13 +46,15 @@ const Post = (props) => {
             styles.postTextContainer,
             dark ? DarkBackground : LightBackground,
           ]}>
-          <Text
-            style={[
-              styles.postText,
-              {color: dark ? Darktext.color : LightText.color},
-            ]}>
-            {props.postText}
-          </Text>
+              <TwitterTextView
+                style={[
+                  styles.postText,
+                  {color: dark ? Darktext.color : LightText.color},
+                ]}
+                hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
+                mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
+                {props.postText}
+              </TwitterTextView>
         </View>
       ) : null}
 

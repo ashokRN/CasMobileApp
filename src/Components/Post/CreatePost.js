@@ -4,27 +4,27 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Button,
   Image,
   TextInput,
   ScrollView,
-  Picker,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import {GlobalContext} from '../../services/GlobalContext';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import TwitterTextView from 'react-native-twitter-textview';
-import { storage } from '../../firebase/index';
+import {storage} from '../../firebase/index';
+import API from '../../services/ApiService';
 
-const CreatePost = () => {
+const CreatePost = ({navigation}) => {
   const {State} = React.useContext(GlobalContext);
-  const {avatar, dark, user} = State;
+  const {avatar, dark, user, token} = State;
   const {ProfileName} = user;
   const [image, setImage] = useState({});
   const [link, setLink] = useState(false);
+  const [fileUrl, setfileUrl] = useState(false);
   const [publicPost, setPublicPost] = useState(false);
   const [save, setSave] = useState(false);
-  const [postContent, setPostContent] = useState({public: false, save: false});
+  const [postContent, setPostContent] = useState({});
 
   const dummyImage = 'https://bit.ly/3i5owN4';
 
@@ -44,8 +44,6 @@ const CreatePost = () => {
     };
 
     ImagePicker.showImagePicker(options, (res) => {
-      // console.log('Response = ', res);
-
       if (res.didCancel) {
         console.log('User cancelled image picker');
       } else if (res.error) {
@@ -56,27 +54,74 @@ const CreatePost = () => {
       } else {
         let source = res;
         setImage(source);
+        setfileUrl(true);
       }
     });
   };
 
   const postSent = async () => {
-    const response = await fetch(image.uri);
-    const blob = await response.blob();
-    const uploadImage = storage.ref(`post/${image.fileName}`).put(blob);
-    uploadImage.on(
-      "state_changed",
-      snapshot => {},
-      err =>{
-        console.log(err);
-      },
-      () =>{
-        storage.ref(`post/${image.fileName}`).getDownloadURL()
-        .then(url =>{
-          console.log(url,'Hello');
-        })
+    try {
+      if (fileUrl) {
+        const {uri, fileName} = image;
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        const imageExtension = fileName.split('.')[
+          fileName.split('.').length - 1
+        ];
+        const imageFileName = `${Math.round(
+          Math.random() * Math.random() * 100000000000,
+        )}.${imageExtension}`;
+        const uploadImage = storage.ref(`post/${imageFileName}`).put(blob);
+        uploadImage.on(
+          'state_changed',
+          (snapshot) => {},
+          (err) => {
+            console.log(err);
+          },
+          () => {
+            storage
+              .ref(`post/${imageFileName}`)
+              .getDownloadURL()
+              .then(async (url) => {
+                let response;
+                let postBody = {...postContent, url: url, mediaType: 'image'};
+                try {
+                  response = await API.createPost(token, postBody);
+                  if (response.data.success === true) {
+                    setImage('');
+                    setLink(false);
+                    setSave(false)
+                    setPublicPost(false);
+                    setPostContent('');
+                    setfileUrl(false);
+                    navigation.navigate('Home');
+                  }
+                } catch (error) {
+                  console.log(error.message);
+                }
+              });
+          },
+        );
+      } else {
+        let response;
+        try {
+          response = await API.createPost(token, postContent);
+          if (response.data.success === true) {
+            setImage('');
+            setLink(false);
+            setSave(false)
+            setPublicPost(false);
+            setPostContent('');
+            setfileUrl(false);
+            navigation.navigate('Home');
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       }
-    )
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -93,15 +138,11 @@ const CreatePost = () => {
         </View>
 
         <View style={styles.imageContailer}>
-          {/* <Image
-            source={{
-              uri: 'data:image/jpeg;base64,' + image.data,
-            }}
-            style={{ width: 100, height: 100 }}
-          /> */}
           {!image.uri && (
-            <TouchableOpacity style={styles.addImageButton} onPress={selectFile}>
-              <Text style={{color: '#ffffff',letterSpacing:1.5}}>
+            <TouchableOpacity
+              style={styles.addImageButton}
+              onPress={selectFile}>
+              <Text style={{color: '#ffffff', letterSpacing: 1.5}}>
                 <FontAwesome5Icon name={'image'} size={15} /> Add Image
               </Text>
             </TouchableOpacity>
@@ -113,43 +154,25 @@ const CreatePost = () => {
               style={[{width: 320, height: 300}, styles.imagePreview]}
             />
           )}
-
-          {/* <Image
-            source={{
-              uri: dummyImage
-            }}
-            style={[{ width: 100, height: 100 },styles.imagePreview]}
-          /> */}
-
-          {/* <Image
-            source={{uri: dummyImage}}
-            style={[{width: 320, height: 300}, styles.imagePreview]}
-          /> */}
         </View>
-        {/* <Text style={{ alignItems: 'center' }}>
-            {image.uri}
-          </Text> */}
         <View style={styles.postContainer}>
           <View style={styles.postInput}>
             <TextInput
-              // autoFocus={true}
               style={styles.Input}
+              autoFocus={true}
               underlineColorAndroid="transparent"
               numberOfLines={10}
               multiline={true}
               placeholder="Write something or add a hashtag"
               placeholderTextColor={'#000000'}
               autoCapitalize="none"
-              //   ref={}
-              //   onSubmitEditing={() => textInput2.current.focus()}
               onChangeText={(text) =>
                 setPostContent({...postContent, postText: text})
               }>
-                
               <TwitterTextView
-                style={{color: '#000000',letterSpacing:1.5}}
-                hashtagStyle={{color: '#ffa500',fontWeight:'bold'}}
-                mentionStyle={{color: '#55b246',fontWeight:'bold'}}>
+                style={{color: '#000000', letterSpacing: 1.5}}
+                hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
+                mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
                 {postContent.postText}
               </TwitterTextView>
             </TextInput>
@@ -163,10 +186,8 @@ const CreatePost = () => {
                 multiline={true}
                 placeholderTextColor={'#000000'}
                 autoCapitalize="none"
-                //   ref={}
-                //   onSubmitEditing={() => textInput2.current.focus()}
                 onChangeText={(text) =>
-                  setPostContent({...postContent, postLink: text})
+                  setPostContent({...postContent, linkUrl: text})
                 }
               />
             </View>
@@ -178,7 +199,10 @@ const CreatePost = () => {
                 styles.optionsButton,
                 link ? styles.activeColor : styles.inactiveColor,
               ]}
-              onPress={() => setLink(!link)}>
+              onPress={() => {
+                setLink(!link);
+                setPostContent({...postContent, link: !link});
+              }}>
               <Text style={styles.optionsButtonContent}>
                 <FontAwesome5Icon name={'link'} size={15} />
               </Text>
@@ -190,7 +214,7 @@ const CreatePost = () => {
               ]}
               onPress={() => {
                 setPublicPost(!publicPost);
-                setPostContent({...postContent, public: !publicPost});
+                setPostContent({...postContent, publicPost: !publicPost});
               }}>
               <Text style={styles.optionsButtonContent}>
                 <FontAwesome5Icon name={'globe-asia'} size={15} />
@@ -203,7 +227,7 @@ const CreatePost = () => {
               ]}
               onPress={() => {
                 setSave(!save);
-                setPostContent({...postContent, save: !save});
+                setPostContent({...postContent, savePost: !save});
               }}>
               <Text style={styles.optionsButtonContent}>
                 <FontAwesome5Icon name={'bookmark'} size={15} />
@@ -217,18 +241,7 @@ const CreatePost = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          {/* <View style={styles.postButtonContainer}>
-            <TouchableOpacity style={styles.postButtonCircle}>
-              <Text style={{color: '#ffffff'}}>
-                <FontAwesome5Icon name={'paper-plane'} size={20} />
-              </Text>
-            </TouchableOpacity>
-          </View> */}
         </View>
-
-        {/* <TouchableOpacity onPress={selectFile} style={styles.button} >
-              <Text style={styles.buttonText}>Select File</Text>
-          </TouchableOpacity>        */}
       </View>
     </ScrollView>
   );
@@ -255,9 +268,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   postInput: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 20,
     padding: 5,
   },
   Input: {
@@ -296,9 +306,6 @@ const styles = StyleSheet.create({
   },
   LinkInputContainer: {
     top: 15,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 20,
     padding: 5,
   },
   LinkInput: {
@@ -328,73 +335,3 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffa500',
   },
 });
-
-// export default class CreatePost extends React.Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       resourcePath: {},
-//     };
-//   }
-
-//   selectFile = () => {
-//     let options = {
-//       title: 'Select Image',
-//       customButtons: [
-//         {
-//           name: 'customOptionKey',
-//           title: 'Choose file from Custom Option'
-//         },
-//       ],
-//       storageOptions: {
-//         skipBackup: true,
-//         path: 'images',
-//       },
-//     };
-
-//     ImagePicker.showImagePicker(options, res => {
-//       console.log('Response = ', res);
-
-//       if (res.didCancel) {
-//         console.log('User cancelled image picker');
-//       } else if (res.error) {
-//         console.log('ImagePicker Error: ', res.error);
-//       } else if (res.customButton) {
-//         console.log('User tapped custom button: ', res.customButton);
-//         alert(res.customButton);
-//       } else {
-//         let source = res;
-//         this.setState({
-//             resourcePath:source
-//         })
-//       }
-//     });
-//   };
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <View style={styles.container}>
-//           <Image
-//             source={{
-//               uri: 'data:image/jpeg;base64,' + this.state.resourcePath.data,
-//             }}
-//             style={{ width: 100, height: 100 }}
-//           />
-//           <Image
-//             source={{ uri: this.state.resourcePath.uri }}
-//             style={{ width: 200, height: 200 }}
-//           />
-//           <Text style={{ alignItems: 'center' }}>
-//             {this.state.resourcePath.uri}
-//           </Text>
-
-//           <TouchableOpacity onPress={this.selectFile} style={styles.button}  >
-//               <Text style={styles.buttonText}>Select File</Text>
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-//     );
-//   }
-// }

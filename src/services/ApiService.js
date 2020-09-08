@@ -44,3 +44,17 @@ exports.getAllPosts = async (token) =>{
     throw error
   }
 }
+
+exports.createPost = async (token,post) =>{
+  try {
+    const response = await axios.post(
+      `${config.api_url}/api/post/create`,post,{
+      headers: {
+        Authorization: `${token}`
+      }
+    });
+    return await response;
+  } catch (error) {
+    throw error
+  }
+}

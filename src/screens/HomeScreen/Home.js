@@ -12,6 +12,7 @@ import {globalStyle} from '../../services/GlobalStyles';
 import Post from '../../Components/Post/Post';
 import API from '../../services/ApiService';
 
+
 const HomePosts = () => {
   const {State, StateDispatch} = useContext(GlobalContext);
   const {avatar, dark, token} = State;
@@ -48,7 +49,7 @@ const HomePosts = () => {
         postTime={'4h'}
         urlType={item.mediaType}
         postText={item.postText ? item.postText : null}
-        url={item.postMediaUrl}
+        url={item.url}
       />
     );
   };

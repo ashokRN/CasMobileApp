@@ -5,8 +5,9 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  AsyncStorage
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import API from '../services/ApiService';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';

@@ -1,6 +1,6 @@
 import React, {useRef, useState, useEffect, useContext} from 'react';
-import {View, Text, StyleSheet, Animated} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import {View, Text, StyleSheet, Animated, AsyncStorage} from 'react-native';
+// import AsyncStorage from '@react-native-community/async-storage';
 import {globalStyle} from '../../services/GlobalStyles';
 import API from '../../services/ApiService';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
