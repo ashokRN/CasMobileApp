@@ -15,6 +15,7 @@ import {globalStyle} from '../services/GlobalStyles';
 import { useDarkMode } from 'react-native-dark-mode'
 import TitleLogo from '../Components/Logo/Title';
 import Logo from '../Components/Logo/Logo';
+import LoadingProgress from '../Components/LoadingProgress/LoadingProgress';
 
 const Stack = createStackNavigator();
 
@@ -76,11 +77,11 @@ const Routes = () => {
               headerTitleAlign:'center'
             }}
           />
-          {/* <Stack.Screen
-            name="login"
-            component={Login}
+          <Stack.Screen
+            name="loadingProcress"
+            component={LoadingProgress}
             options={{headerShown: false}}
-          /> */}
+          />
           <Stack.Screen
             name="signup"
             component={Signup}

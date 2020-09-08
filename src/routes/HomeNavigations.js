@@ -104,6 +104,3 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
 });
-
-// 1526
-//1010

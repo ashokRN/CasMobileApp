@@ -79,7 +79,6 @@ const Loading = ({navigation}) => {
           ]}>
           <FontAwesome5Icon name={'autoprefixer'} size={120} />
         </Text>
-        {/* <Text style={style.logoTextDes}>{AppName}</Text> */}
       </Animated.View>
     </View>
   );
