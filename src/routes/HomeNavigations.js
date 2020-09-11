@@ -4,7 +4,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Profile from '../screens/ProfileScreen/Profile';
+import Profile from './ProfileNavigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';

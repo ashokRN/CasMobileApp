@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import {View, Text, Animated, Easing, TouchableOpacity} from 'react-native';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-const LoadingProgress = ({navigation}) => {
+const LoadingProgress = ({navigation, route}) => {
   const postButton = useRef(new Animated.Value(0)).current;
   const rotate = useRef(new Animated.Value(0)).current;
   const [rotateAnime, setRotateAnime] = useState(false);
@@ -47,7 +47,14 @@ const LoadingProgress = ({navigation}) => {
       useNativeDriver: true,
       easing: Easing.linear,
     }).start(() => {
-      setTimeout(() => navigation.navigate('home', {screen: 'Home'}), 500);
+      setTimeout(() => {
+        if (route.params.nav === 'home') {
+          navigation.navigate('home', {screen: 'Home'});
+        }
+        if(route.params.nav === 'Profile'){
+          navigation.navigate('home', {screen: 'Profile'});
+        }
+      }, 1000);
     });
   };
 
@@ -99,7 +106,7 @@ const LoadingProgress = ({navigation}) => {
                 ],
               }}>
               <Text style={{color: '#ffa500'}}>
-                <FontAwesome5Icon name={'paper-plane'} size={50} />
+                <FontAwesome5Icon name={route.params.icon} size={50} />
               </Text>
             </Animated.View>
           </Animated.View>

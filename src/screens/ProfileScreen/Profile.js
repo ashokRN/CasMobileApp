@@ -4,15 +4,20 @@ import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import ProfileImage from '../../Components/Profile/ProfileImage';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const {State, StateDispatch} = React.useContext(GlobalContext);
   const {dark, user} = State;
   const {DarkBackground, LightBackground, Darktext, LightText} = globalStyle;
 
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   return (
     <SafeAreaView style={[dark ? DarkBackground : LightBackground]}>
       <ScrollView>
-        <ProfileImage />
+        <ProfileImage nav={()=> navigation.navigate("editProfileScreen")} />
         {Object.keys(user).map((key, i) => (
           <View
             key={i}
@@ -22,7 +27,7 @@ const Profile = () => {
             ]}>
             <Text
               style={[styles.profileDetailHeader, dark ? Darktext : LightText]}>
-              {key}
+              {capitalize(key)}
             </Text>
             <Text
               style={[styles.profileDetailText, dark ? Darktext : LightText]}>

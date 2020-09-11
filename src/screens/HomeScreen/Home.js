@@ -45,7 +45,7 @@ const HomePosts = () => {
     return (
       <Post
         posterImage={item.poster.profilePic}
-        posterName={item.poster.name}
+        posterName={item.poster.profileName}
         postTime={'4h'}
         urlType={item.mediaType}
         postText={item.postText ? item.postText : null}

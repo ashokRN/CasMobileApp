@@ -10,21 +10,31 @@ export const reducer = (state, action) => {
         active: true,
         avatar: user.profilePic,
         user: {
-          ProfileName: user.profileName,
-          Name: user.name,
-          Email: user.email,
-          Phone: user.phone,
-          DOB: user.dob,
-          RegistrationNo: user.regno,
-          Department: user.department,
-          Course: user.course,
-          Graduate: user.graduate,
+          profileName: user.profileName,
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          dob: user.dob,
+          regNo: user.regNo,
+          department: user.department,
+          course: user.course,
+          graduate: user.graduate,
         },
       };
     case 'LOGOUT':
       return {dark:action.dark};
     case 'DARK':
       return {...state, dark: action.dark ? true : false};
+
+    case 'UPDATE_PROFILE':
+      let avatar;
+      if(action.payload.profilePic) avatar = action.payload.profilePic
+      else avatar = state.avatar;
+      let data = action.payload;
+      if(action.payload.profilePic){
+        delete data.profilePic
+      }
+      return {...state,user:data,avatar:avatar}
 
     default:
       throw new Error('Action type must be defined');

@@ -15,7 +15,7 @@ import TwitterTextView from 'react-native-twitter-textview';
 import {storage} from '../../firebase/index';
 import API from '../../services/ApiService';
 
-const CreatePost = ({navigation}) => {
+const CreatePost = ({navigation:{navigate}}) => {
   const {State} = React.useContext(GlobalContext);
   const {avatar, dark, user, token} = State;
   const {ProfileName} = user;
@@ -55,6 +55,10 @@ const CreatePost = ({navigation}) => {
   const postSent = async () => {
     try {
       if (fileUrl) {
+        navigate('loadingProcress', {
+          nav: 'home',
+          icon: 'paper-plane'
+        })
         const {uri, fileName} = image;
         const response = await fetch(uri);
         const blob = await response.blob();
@@ -80,7 +84,6 @@ const CreatePost = ({navigation}) => {
                 let postBody = {...postContent, url: url, mediaType: 'image'};
                 try {
                   response = await API.createPost(token, postBody);
-                  navigation.navigate('loadingProcress');
                   if (response.data.success === true) {
                     setImage('');
                     setLink(false);
@@ -99,7 +102,10 @@ const CreatePost = ({navigation}) => {
         let response;
         try {
           response = await API.createPost(token, postContent);
-          navigation.navigate('loadingProcress');
+          navigate('loadingProcress', {
+            nav: 'home',
+            icon: 'paper-plane'
+          })
           if (response.data.success === true) {
             setImage('');
             setLink(false);

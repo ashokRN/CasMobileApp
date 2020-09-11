@@ -58,3 +58,18 @@ exports.createPost = async (token,post) =>{
     throw error
   }
 }
+
+exports.updateUser = async (token,updateData) => {
+  try {
+    const response = await axios.put(
+      `${config.api_url}/api/update`,updateData,{
+        headers:{
+          Authorization: `${token}`
+        }
+      }
+    )    
+    return await response;
+  } catch (err) {
+    throw err
+  }
+}
