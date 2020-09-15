@@ -24,8 +24,6 @@ const UpdataProfile = ({navigation:{navigate,goBack}}) => {
   const {email} = user;
   const {DarkBackground, LightBackground, Darktext, LightText} = globalStyle;
 
-  console.log(user,'User');
-
   const updateHandler = async () => {
     let bodyData;
     let response;
@@ -35,7 +33,6 @@ const UpdataProfile = ({navigation:{navigate,goBack}}) => {
       response = await API.updateUser(token, bodyData);
       let data = response.data;
       if (data.success === true) {
-        goBack();
         if (data.status.nModified > 0) {
           await StateDispatch({
             type: 'UPDATE_PROFILE',

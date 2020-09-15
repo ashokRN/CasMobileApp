@@ -10,7 +10,7 @@ import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
 import Home from '../screens/HomeScreen/Home';
 import Inboxs from '../screens/InboxsScreen/Inbox';
-import AttenaceNavigation from './AttenaceNavigation';
+import FeesNavigation from './FeesNavigation';
 import CreatePost from '../Components/Post/CreatePost';
 
 const Tab = createBottomTabNavigator();
@@ -86,7 +86,7 @@ const HomeNavigation = ({navigation}) => {
         },
       })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Feed" component={AttenaceNavigation} />
+      <Tab.Screen name="Feed" component={FeesNavigation} />
       <Tab.Screen name="Post" component={CreatePost} />
       <Tab.Screen name="Notification" component={Inboxs} />
       <Tab.Screen name="Profile" component={Profile} />

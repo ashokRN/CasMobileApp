@@ -26,7 +26,7 @@ const Loading = ({navigation}) => {
         }
         if (response) {
           let data = response.data;
-          await StateDispatch({type:"LOGIN",payload:{user:data.user,token:value,active:true,Auth:true}});
+          await StateDispatch({type:"LOGIN",payload:{user:data.user,token:value}});
           navigation.navigate('home');
         }
       } else {

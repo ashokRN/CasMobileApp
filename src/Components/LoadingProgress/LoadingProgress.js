@@ -52,7 +52,7 @@ const LoadingProgress = ({navigation, route}) => {
           navigation.navigate('home', {screen: 'Home'});
         }
         if(route.params.nav === 'Profile'){
-          navigation.navigate('home', {screen: 'Profile'});
+          navigation.navigate('home', {screen: 'Profile',initial: true});
         }
       }, 1000);
     });
