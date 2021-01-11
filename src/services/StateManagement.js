@@ -1,5 +1,4 @@
 export const reducer = (state, action) => {
-  
   switch (action.type) {
     case 'LOGIN':
       const {user} = action.payload;
@@ -22,19 +21,22 @@ export const reducer = (state, action) => {
         },
       };
     case 'LOGOUT':
-      return {dark:action.dark};
+      return {dark: action.dark};
     case 'DARK':
       return {...state, dark: action.dark ? true : false};
 
     case 'UPDATE_PROFILE':
       let avatar;
-      if(action.payload.profilePic) avatar = action.payload.profilePic
+      if (action.payload.profilePic) avatar = action.payload.profilePic;
       else avatar = state.avatar;
       let data = action.payload;
-      if(action.payload.profilePic){
-        delete data.profilePic
+      if (action.payload.profilePic) {
+        delete data.profilePic;
       }
-      return {...state,user:data,avatar:avatar}
+      return {...state, user: data, avatar: avatar};
+
+    case 'SAVED_POST':
+      return {...state, savedPosts: action.posts};
 
     default:
       throw new Error('Action type must be defined');

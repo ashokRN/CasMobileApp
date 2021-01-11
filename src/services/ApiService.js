@@ -1,75 +1,104 @@
 const axios = require('axios');
 const config = require('../config/config');
 
+exports.signup = async (body) => {
+  let response;
+  try {
+    response = await axios.post(`${config.api_url}/api/create`, body);
+    if (response) {
+      return await response;
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 exports.login = async (regno, password) => {
   try {
+    const response = await axios.post(`${config.api_url}/api/login`, {
+      regNo: regno,
+      password: password,
+    });
+    return await response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getUser = async (token) => {
+  try {
+    const response = await axios.get(`${config.api_url}/api/get`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return await response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.getAllPosts = async (token) => {
+  try {
+    const response = await axios.get(`${config.api_url}/api/post/getAll`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return await response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+exports.createPost = async (token, post) => {
+  try {
     const response = await axios.post(
-      `${config.api_url}/api/login`,
+      `${config.api_url}/api/post/create`,
+      post,
       {
-        regNo: regno,
-        password: password,
+        headers: {
+          Authorization: `${token}`,
+        },
       },
     );
     return await response;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
-exports.getUser = async (token) => {
-  try {
-    const response = await axios.get(
-      `${config.api_url}/api/get`, {
-      headers: {
-        Authorization: `${token}`
-      }
-    });
-    return await response;
-  } catch (error) {
-    throw error
-  }
-}
-
-exports.getAllPosts = async (token) =>{
-  try {
-    const response = await axios.get(
-      `${config.api_url}/api/post/getAll`,{
-      headers: {
-        Authorization: `${token}`
-      }
-      
-    });
-    return await response;
-  } catch (error) {
-    throw error
-  }
-}
-
-exports.createPost = async (token,post) =>{
+exports.savePost = async (token, id) => {
+  
   try {
     const response = await axios.post(
-      `${config.api_url}/api/post/create`,post,{
-      headers: {
-        Authorization: `${token}`
-      }
-    });
+      `${config.api_url}/api/post/save`,
+      {id: id},
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      },
+    );
     return await response;
   } catch (error) {
-    throw error
+    throw error;
   }
-}
+};
 
-exports.updateUser = async (token,updateData) => {
+exports.updateUser = async (token, updateData) => {
   try {
     const response = await axios.put(
-      `${config.api_url}/api/update`,updateData,{
-        headers:{
-          Authorization: `${token}`
-        }
-      }
-    )    
+      `${config.api_url}/api/update`,
+      updateData,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      },
+    );
     return await response;
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};

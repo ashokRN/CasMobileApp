@@ -5,6 +5,7 @@ import {globalStyle} from '../../services/GlobalStyles';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import VideoContainer from '../VideoContainer/VideoContainer';
 import TwitterTextView from 'react-native-twitter-textview';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const window = Dimensions.get('window');
 
@@ -46,15 +47,15 @@ const Post = (props) => {
             styles.postTextContainer,
             dark ? DarkBackground : LightBackground,
           ]}>
-              <TwitterTextView
-                style={[
-                  styles.postText,
-                  {color: dark ? Darktext.color : LightText.color},
-                ]}
-                hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
-                mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
-                {props.postText}
-              </TwitterTextView>
+          <TwitterTextView
+            style={[
+              styles.postText,
+              {color: dark ? Darktext.color : LightText.color},
+            ]}
+            hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
+            mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
+            {props.postText}
+          </TwitterTextView>
         </View>
       ) : null}
 
@@ -71,27 +72,59 @@ const Post = (props) => {
         </View>
       ) : null}
 
-      <View
-        style={[
-          styles.activityContainer,
-          dark ? DarkBackground : LightBackground,
-        ]}>
-        <View style={[styles.activityIconContainer]}>
-          <Text style={{color: dark ? Darktext.color : LightText.color}}>
-            save
-          </Text>
-        </View>
-        <View style={[styles.activityIconContainer]}>
-          <Text style={{color: dark ? Darktext.color : LightText.color}}>
-            view
-          </Text>
-        </View>
-        <View style={[styles.activityIconContainer]}>
-          <Text style={{color: dark ? Darktext.color : LightText.color}}>
-            share
-          </Text>
-        </View>
-      </View>
+      {!props.saved && (
+        <React.Fragment>
+          <View
+            style={[
+              styles.activityContainer,
+              dark ? DarkBackground : LightBackground,
+            ]}>
+            <View
+              style={{
+                ...styles.activityIconContainer,
+                flexDirection: 'column',
+              }}>
+              <FontAwesome5 name={'heart'} size={20} color={'#ffa500'} />
+              <Text
+                style={{
+                  color: dark ? Darktext.color : LightText.color,
+                  top: 5,
+                }}>
+                like
+              </Text>
+            </View>
+            <View
+              style={{
+                ...styles.activityIconContainer,
+                flexDirection: 'column',
+              }}>
+              <FontAwesome5 name={'share-alt'} size={20} color={'#ffa500'} />
+              <Text
+                style={{
+                  color: dark ? Darktext.color : LightText.color,
+                  top: 5,
+                }}>
+                share
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => props.save()}
+              style={{
+                ...styles.activityIconContainer,
+                flexDirection: 'column',
+              }}>
+              <FontAwesome5 name={'clone'} size={20} color={'#ffa500'} />
+              <Text
+                style={{
+                  color: dark ? Darktext.color : LightText.color,
+                  top: 5,
+                }}>
+                save
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </React.Fragment>
+      )}
     </View>
   );
 };

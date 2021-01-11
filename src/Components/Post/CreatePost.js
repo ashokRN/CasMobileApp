@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -15,7 +15,7 @@ import TwitterTextView from 'react-native-twitter-textview';
 import {storage} from '../../firebase/index';
 import API from '../../services/ApiService';
 
-const CreatePost = ({navigation:{navigate}}) => {
+const CreatePost = ({navigation: {navigate}}) => {
   const {State} = React.useContext(GlobalContext);
   const {avatar, dark, user, token} = State;
   const {ProfileName} = user;
@@ -57,8 +57,8 @@ const CreatePost = ({navigation:{navigate}}) => {
       if (fileUrl) {
         navigate('loadingProcress', {
           nav: 'home',
-          icon: 'paper-plane'
-        })
+          icon: 'paper-plane',
+        });
         const {uri, fileName} = image;
         const response = await fetch(uri);
         const blob = await response.blob();
@@ -104,8 +104,8 @@ const CreatePost = ({navigation:{navigate}}) => {
           response = await API.createPost(token, postContent);
           navigate('loadingProcress', {
             nav: 'home',
-            icon: 'paper-plane'
-          })
+            icon: 'paper-plane',
+          });
           if (response.data.success === true) {
             setImage('');
             setLink(false);
@@ -124,125 +124,181 @@ const CreatePost = ({navigation:{navigate}}) => {
   };
 
   return (
-        <ScrollView style={styles.container}>
-          <View style={styles.container}>
-            <View style={{flexDirection: 'row', padding: 8}}>
-              <Image
-                source={{uri: avatar}}
-                style={{width: 50, height: 50, borderRadius: 150 / 2}}
-              />
-              <View style={{padding: 10, flexDirection: 'column'}}>
-                <Text style={{letterSpacing: 2}}>{ProfileName}</Text>
-              </View>
-            </View>
-
-            <View style={styles.imageContailer}>
-              {!image.uri && (
-                <TouchableOpacity
-                  style={styles.addImageButton}
-                  onPress={selectFile}>
-                  <Text style={{color: '#ffffff', letterSpacing: 1.5}}>
-                    <FontAwesome5Icon name={'image'} size={15} /> Add Image
-                  </Text>
-                </TouchableOpacity>
-              )}
-
-              {image.uri && (
-                <Image
-                  source={{uri: image.uri}}
-                  style={[{width: 320, height: 300}, styles.imagePreview]}
-                />
-              )}
-            </View>
-            <View style={styles.postContainer}>
-              <View style={styles.postInput}>
-                <TextInput
-                  style={styles.Input}
-                  underlineColorAndroid="transparent"
-                  numberOfLines={10}
-                  multiline={true}
-                  placeholder="Write something or add a hashtag"
-                  placeholderTextColor={'#000000'}
-                  autoCapitalize="none"
-                  onChangeText={(text) =>
-                    setPostContent({...postContent, postText: text})
-                  }>
-                  <TwitterTextView
-                    style={{color: '#000000', letterSpacing: 1.5}}
-                    hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
-                    mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
-                    {postContent.postText}
-                  </TwitterTextView>
-                </TextInput>
-              </View>
-              {link && (
-                <View style={styles.LinkInputContainer}>
-                  <TextInput
-                    style={styles.LinkInput}
-                    underlineColorAndroid="transparent"
-                    placeholder="Add Link"
-                    multiline={true}
-                    placeholderTextColor={'#000000'}
-                    autoCapitalize="none"
-                    onChangeText={(text) =>
-                      setPostContent({...postContent, linkUrl: text})
-                    }
-                  />
-                </View>
-              )}
-
-              <View style={styles.optionButtonContainer}>
-                <TouchableOpacity
-                  style={[
-                    styles.optionsButton,
-                    link ? styles.activeColor : styles.inactiveColor,
-                  ]}
-                  onPress={() => {
-                    setLink(!link);
-                    setPostContent({...postContent, link: !link});
-                  }}>
-                  <Text style={styles.optionsButtonContent}>
-                    <FontAwesome5Icon name={'link'} size={15} />
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.optionsButton,
-                    publicPost ? styles.activeColor : styles.inactiveColor,
-                  ]}
-                  onPress={() => {
-                    setPublicPost(!publicPost);
-                    setPostContent({...postContent, publicPost: !publicPost});
-                  }}>
-                  <Text style={styles.optionsButtonContent}>
-                    <FontAwesome5Icon name={'globe-asia'} size={15} />
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    styles.optionsButton,
-                    save ? styles.activeColor : styles.inactiveColor,
-                  ]}
-                  onPress={() => {
-                    setSave(!save);
-                    setPostContent({...postContent, savePost: !save});
-                  }}>
-                  <Text style={styles.optionsButtonContent}>
-                    <FontAwesome5Icon name={'bookmark'} size={15} />
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.postButtonCircle}
-                  onPress={postSent}>
-                  <Text style={{color: '#ffffff'}}>
-                    <FontAwesome5Icon name={'paper-plane'} size={20} />
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.container}>
+        <View style={{flexDirection: 'row', padding: 8}}>
+          <Image
+            source={{uri: avatar}}
+            style={{width: 50, height: 50, borderRadius: 150 / 2}}
+          />
+          <View style={{padding: 10, flexDirection: 'column'}}>
+            <Text style={{letterSpacing: 2}}>{ProfileName}</Text>
           </View>
-        </ScrollView>
+        </View>
+
+        <View style={styles.imageContailer}>
+          {!image.uri && (
+            <TouchableOpacity
+              style={styles.addImageButton}
+              onPress={selectFile}>
+              <Text style={{color: '#ffffff', letterSpacing: 1.5}}>
+                <FontAwesome5Icon name={'image'} size={15} /> Add Image
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {image.uri && (
+            <Image
+              source={{uri: image.uri}}
+              style={[{width: 320, height: 300}, styles.imagePreview]}
+            />
+          )}
+        </View>
+        <View style={styles.postContainer}>
+          <View
+            style={[
+              styles.postInput,
+              {borderWidth: 0.7, borderRadius: 15, borderColor: '#d2d2d2'},
+            ]}>
+            <TextInput
+              style={styles.Input}
+              underlineColorAndroid="transparent"
+              numberOfLines={10}
+              multiline={true}
+              placeholder="Write something or add a hashtag"
+              placeholderTextColor={'#000000'}
+              autoCapitalize="none"
+              onChangeText={(text) =>
+                setPostContent({...postContent, postText: text})
+              }>
+              <TwitterTextView
+                style={{color: '#000000', letterSpacing: 1.5}}
+                hashtagStyle={{color: '#ffa500', fontWeight: 'bold'}}
+                mentionStyle={{color: '#55b246', fontWeight: 'bold'}}>
+                {postContent.postText}
+              </TwitterTextView>
+            </TextInput>
+          </View>
+          {link && (
+            <View
+              style={[
+                styles.LinkInputContainer,
+                {borderWidth: 0.7, borderRadius: 15, borderColor: '#d2d2d2'},
+              ]}>
+              <TextInput
+                style={styles.LinkInput}
+                underlineColorAndroid="transparent"
+                placeholder="Add Link"
+                multiline={true}
+                placeholderTextColor={'#000000'}
+                autoCapitalize="none"
+                onChangeText={(text) =>
+                  setPostContent({...postContent, linkUrl: text})
+                }
+              />
+            </View>
+          )}
+
+          <View style={styles.optionButtonContainer}>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity
+                style={[
+                  styles.optionsButton,
+                  link ? styles.activeColor : styles.inactiveColor,
+                ]}
+                onPress={() => {
+                  setLink(!link);
+                  setPostContent({...postContent, link: !link});
+                }}>
+                <Text style={styles.optionsButtonContent}>
+                  <FontAwesome5Icon name={'link'} size={15} />
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  top: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[
+                    {fontSize: 12, fontWeight: 'bold', letterSpacing: 1},
+                    {color: link ? '#ffa500' : 'gray'},
+                  ]}>
+                  link
+                </Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity
+                style={[
+                  styles.optionsButton,
+                  publicPost ? styles.activeColor : styles.inactiveColor,
+                ]}
+                onPress={() => {
+                  setPublicPost(!publicPost);
+                  setPostContent({...postContent, publicPost: !publicPost});
+                }}>
+                <Text style={styles.optionsButtonContent}>
+                  <FontAwesome5Icon name={'globe-asia'} size={15} />
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  top: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[
+                    {fontSize: 12, fontWeight: 'bold', letterSpacing: 1},
+                    {color: publicPost ? '#ffa500' : 'gray'},
+                  ]}>
+                  public
+                </Text>
+              </View>
+            </View>
+            <View style={{flexDirection: 'column'}}>
+              <TouchableOpacity
+                style={[
+                  styles.optionsButton,
+                  save ? styles.activeColor : styles.inactiveColor,
+                ]}
+                onPress={() => {
+                  setSave(!save);
+                  setPostContent({...postContent, savePost: !save});
+                }}>
+                <Text style={styles.optionsButtonContent}>
+                  <FontAwesome5Icon name={'bookmark'} size={15} />
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  top: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[
+                    {fontSize: 12, fontWeight: 'bold', letterSpacing: 1},
+                    {color: save ? '#ffa500' : 'gray'},
+                  ]}>
+                  save
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.postButtonCircle}
+              onPress={postSent}>
+              <Text style={{color: '#ffffff'}}>
+                <FontAwesome5Icon name={'paper-plane'} size={20} />
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </ScrollView>
   );
 };
 export default CreatePost;

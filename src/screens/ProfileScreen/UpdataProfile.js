@@ -194,7 +194,7 @@ const UpdataProfile = ({navigation:{navigate,goBack}}) => {
               style={[
                 styles.Input,
                 dark ? {borderColor: '#ffffff'} : {borderColor: '#000000'},
-                ['regNo', 'department', 'course', 'graduate'].includes(key) ===
+                ['regNo'].includes(key) ===
                 true
                   ? dark
                     ? {borderColor: '#2d2d2d'}
@@ -205,7 +205,7 @@ const UpdataProfile = ({navigation:{navigate,goBack}}) => {
               placeholderTextColor={'#ffffff'}
               autoCapitalize="none"
               editable={
-                ['regNo', 'department', 'course', 'graduate'].includes(key) ===
+                ['regNo'].includes(key) ===
                 true
                   ? false
                   : true

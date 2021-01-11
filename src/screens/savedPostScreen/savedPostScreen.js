@@ -11,23 +11,22 @@ import {GlobalContext} from '../../services/GlobalContext';
 import {globalStyle} from '../../services/GlobalStyles';
 import Post from '../../Components/Post/Post';
 import API from '../../services/ApiService';
-import {Alert} from 'react-native';
 
-const HomePosts = () => {
+const savedPostScreen = () => {
   const {State, StateDispatch} = useContext(GlobalContext);
-  const {avatar, dark, token} = State;
+  const {avatar, dark, token, savedPosts} = State;
 
   const {DarkBackground, LightBackground} = globalStyle;
 
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState(savedPosts);
   const [refreshPost, setRefreshPost] = useState(false);
 
   const getAllPosts = async () => {
     let response;
     try {
-      response = await API.getAllPosts(token);
+      response = await API.getUser(token);
       if (response) {
-        setPosts(response.data.posts);
+        setPosts(response.data.user.savedPost);
         if (refreshPost === true) {
           setRefreshPost(false);
         }
@@ -41,18 +40,6 @@ const HomePosts = () => {
     getAllPosts();
   }, [refreshPost]);
 
-  const savePostController = async (id) => {
-    let response;
-    try {
-      response = API.savePost(State.token, id);
-      if (response) {
-        Alert.alert('post saved');
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-
   const postRender = ({item}) => {
     return (
       <Post
@@ -62,7 +49,7 @@ const HomePosts = () => {
         urlType={item.mediaType}
         postText={item.postText ? item.postText : null}
         url={item.url}
-        save={() => savePostController(item._id)}
+        saved={true}
       />
     );
   };
@@ -80,4 +67,4 @@ const HomePosts = () => {
   );
 };
 
-export default HomePosts;
+export default savedPostScreen;

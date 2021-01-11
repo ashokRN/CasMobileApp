@@ -4,14 +4,14 @@ import {View, Text, StyleSheet, Animated, AsyncStorage} from 'react-native';
 import {globalStyle} from '../../services/GlobalStyles';
 import API from '../../services/ApiService';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
-import { GlobalContext } from '../../services/GlobalContext';
+import {GlobalContext} from '../../services/GlobalContext';
 
 const Loading = ({navigation}) => {
   const LogoAnime = useRef(new Animated.Value(0)).current;
   const [LoadingSpinner, setLoadingSpinner] = useState(false);
   const {loadingDarkScreen, loadingLightScreen} = globalStyle;
 
-  const {State, StateDispatch}= useContext(GlobalContext);
+  const {State, StateDispatch} = useContext(GlobalContext);
   const {dark} = State;
 
   const tokenAuth = async () => {
@@ -26,7 +26,11 @@ const Loading = ({navigation}) => {
         }
         if (response) {
           let data = response.data;
-          await StateDispatch({type:"LOGIN",payload:{user:data.user,token:value}});
+          await StateDispatch({
+            type: 'LOGIN',
+            payload: {user: data.user, token: value},
+          });
+          await StateDispatch({type: 'SAVED_POST', posts: data.user.savedPost});
           navigation.navigate('home');
         }
       } else {

@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-  Image,
-  StyleSheet,
-} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Profile from './ProfileNavigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,14 +9,14 @@ import Home from '../screens/HomeScreen/Home';
 import Inboxs from '../screens/InboxsScreen/Inbox';
 import FeesNavigation from './FeesNavigation';
 import CreatePost from '../Components/Post/CreatePost';
+import savedPostScreen from '../screens/savedPostScreen/savedPostScreen';
 
 const Tab = createBottomTabNavigator();
 
 const HomeNavigation = ({navigation}) => {
-
-  const {State } = React.useContext(GlobalContext);
+  const {State} = React.useContext(GlobalContext);
   const {avatar, dark} = State;
-  
+
   const {
     darkTabLogoBorder,
     lightTabLogoBorder,
@@ -28,9 +25,8 @@ const HomeNavigation = ({navigation}) => {
     darkTabActiveColor,
     lightTabActiveColor,
     darkTabInActiveColor,
-    lightTabInActiveColor
+    lightTabInActiveColor,
   } = globalStyle;
-
 
   const darkthemeStyles = {
     backgroundColor: dark
@@ -61,13 +57,13 @@ const HomeNavigation = ({navigation}) => {
         style: dark ? darkthemeStyles : lightthemeStyles,
       }}
       screenOptions={({route}) => ({
-        tabBarVisible:route.name === 'Post'? false : true,
+        tabBarVisible: route.name === 'Post' ? false : true,
         tabBarIcon: ({color}) => {
           const icons = {
             Home: 'home',
             Feed: 'rss-square',
-            Post:'plus-circle',
-            Notification: 'envelope',
+            Post: 'plus-circle',
+            save: 'inbox',
           };
           if (route.name === 'Profile') {
             return (
@@ -86,10 +82,15 @@ const HomeNavigation = ({navigation}) => {
         },
       })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Feed" component={FeesNavigation} />
-      <Tab.Screen name="Post" component={CreatePost} />
-      <Tab.Screen name="Notification" component={Inboxs} />
+      {/* <Tab.Screen name="Feed" component={FeesNavigation} /> */}
+      {State.user.userType === 'staff' && (
+        <Tab.Screen name="Post" component={CreatePost} />
+      )}
+
+      {/* <Tab.Screen name="Notification" component={Inboxs} /> */}
       <Tab.Screen name="Profile" component={Profile} />
+
+      <Tab.Screen name="save" component={savedPostScreen} />
     </Tab.Navigator>
   );
 };

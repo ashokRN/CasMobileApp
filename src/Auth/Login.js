@@ -1,16 +1,10 @@
 import React, {useState, useContext} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  AsyncStorage
-} from 'react-native';
-// import AsyncStorage from '@react-native-community/async-storage';
+import {View, StyleSheet, Text, TextInput} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import API from '../services/ApiService';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const Login = ({navigation}) => {
   const state = useContext(GlobalContext);
@@ -19,7 +13,7 @@ const Login = ({navigation}) => {
   const [regno, setRegno] = useState();
   const [password, setPassword] = useState();
   const {loadingDarkScreen, loadingLightScreen, lightBackground} = globalStyle;
-  
+
   let textInput = React.useRef();
   let textInput2 = React.useRef();
 
@@ -35,7 +29,10 @@ const Login = ({navigation}) => {
         }
         if (response) {
           let data = response.data;
-          await state.StateDispatch({type:"LOGIN",payload:{user:data.user,token:value}});
+          await state.StateDispatch({
+            type: 'LOGIN',
+            payload: {user: data.user, token: value},
+          });
           navigation.navigate('home');
         }
       } else {
@@ -149,7 +146,9 @@ const Login = ({navigation}) => {
           ]}></View>
         <View style={styles.signup}>
           <Text style={styles.signupText}>If you don't have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('signup')}>
+          <TouchableOpacity
+            style={{height: 100}}
+            onPress={() => navigation.navigate('signup')}>
             <Text
               style={[
                 styles.signupTextSignUp,
