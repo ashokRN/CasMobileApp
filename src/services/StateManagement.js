@@ -18,6 +18,7 @@ export const reducer = (state, action) => {
           department: user.department,
           course: user.course,
           graduate: user.graduate,
+          userType:user.userType
         },
       };
     case 'LOGOUT':

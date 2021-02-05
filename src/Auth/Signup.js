@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {View, StyleSheet, Text, TextInput} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import API from '../services/ApiService';
 import {GlobalContext} from '../services/GlobalContext';
 import {globalStyle} from '../services/GlobalStyles';
